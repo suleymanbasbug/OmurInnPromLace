@@ -1,5 +1,6 @@
 import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
+import {PERMISSIONS, request} from 'react-native-permissions';
 //method was called to get FCM tiken for notification
 export const getFcmToken = async () => {
   let token = null;
@@ -66,6 +67,13 @@ export const checkApplicationNotificationPermission = async () => {
   if (enabled) {
     console.log('Authorization status:', authStatus);
   }
+  request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+    .then(result => {
+      console.log('POST_NOTIFICATIONS status:', result);
+    })
+    .catch(error => {
+      console.log('POST_NOTIFICATIONS error ', error);
+    });
 };
 
 //method was called to listener events from firebase for notification triger

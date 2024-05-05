@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "59662536703",
+    "project_id": "omurinn-2941f",
+    "storage_bucket": "omurinn-2941f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59662536703:android:0dcc81604c8e63952661ca",
+        "android_client_info": {
+          "package_name": "com.omurinnpromlace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL_zR43bj0sycXV-m8ZLuENea6xUfD5u8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
