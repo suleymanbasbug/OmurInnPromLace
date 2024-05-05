@@ -8,6 +8,7 @@ export const getFcmToken = async () => {
   try {
     token = await messaging().getToken();
     console.log('getFcmToken-->', token);
+    joinRoom();
   } catch (error) {
     console.log('getFcmToken Device Token error ', error);
   }
@@ -147,4 +148,12 @@ async function onDisplayNotification(title, body, data) {
       },
     },
   });
+}
+
+export function joinRoom() {
+  messaging()
+    .subscribeToTopic('room')
+    .then(() => {
+      console.log('Subscribed to topic!');
+    });
 }
