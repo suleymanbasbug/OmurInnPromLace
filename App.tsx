@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {getFcmToken, registerListenerWithFCM} from './app/utils/fcmHelper';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -56,6 +57,15 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = registerListenerWithFCM();
+    return unsubscribe;
+  }, []);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
