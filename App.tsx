@@ -30,15 +30,19 @@ import {COLORS} from './app/assets/values/colors';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
 import Toast from 'react-native-toast-message';
-export type ScreenNames = [
-  'Admin',
-  'UserManagement',
-  'ProductManagement',
-  'NotificationManagement',
-  'StoreManagement',
-  'CreateStore',
-];
-export type RootStackParamList = Record<ScreenNames[number], undefined>;
+import EditStore from '@app/pages/EditStore';
+import {Store} from '@app/services/store';
+
+export type RootStackParamList = {
+  Admin: undefined;
+  UserManagement: undefined;
+  ProductManagement: undefined;
+  NotificationManagement: undefined;
+  StoreManagement: undefined;
+  CreateStore: undefined;
+  EditStore: {store: Store};
+};
+
 export type StackNavigation = NavigationProp<RootStackParamList>;
 
 const Tab = createBottomTabNavigator();
@@ -79,6 +83,15 @@ function AdminStackRouter() {
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.primary,
           title: 'Mağaza Oluştur',
+        }}
+      />
+      <Stack.Screen
+        name="EditStore"
+        component={EditStore}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+          title: 'Mağazayı Düzenle',
         }}
       />
     </Stack.Navigator>

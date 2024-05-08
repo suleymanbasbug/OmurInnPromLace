@@ -1,9 +1,18 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
+import Empty from '@app/components/Empty';
 import Seperator from '@app/components/Seperator';
-import {useGetAllStoreQuery} from '@app/services/store';
-import React, {useEffect} from 'react';
 import {
+  Store,
+  useDeleteStoreMutation,
+  useGetAllStoreQuery,
+} from '@app/services/store';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from 'App';
+import React from 'react';
+import {
+  Alert,
   Dimensions,
   Image,
   Pressable,
@@ -12,9 +21,23 @@ import {
   View,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export default function StoreManagement() {
+  const {data} = useGetAllStoreQuery();
+  const [triggerDelete] = useDeleteStoreMutation();
+  const navigation = useNavigation<StackNavigation>();
+
+  const handleDelete = ({id}: {id: number}) => {
+    Alert.alert('Sil', 'Mağaza silinecek onaylıyor musun ?', [
+      {
+        text: 'İptal',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Sil', onPress: () => triggerDelete(id)},
+    ]);
+  };
+
   const renderItem = ({item}: {item: any}) => {
     return (
       <View style={styles.renderItemContainer}>
@@ -31,13 +54,17 @@ export default function StoreManagement() {
     );
   };
 
-  const renderHiddenItem = () => {
+  const renderHiddenItem = ({item}: {item: Store}) => {
     return (
       <View style={styles.renderHiddenItemContainer}>
-        <Pressable style={styles.backLeftBtn}>
+        <Pressable
+          style={styles.backLeftBtn}
+          onPress={() => navigation.navigate('EditStore', {store: item})}>
           <Image style={styles.leftImage} source={ImageResources.edit_icon} />
         </Pressable>
-        <Pressable style={styles.backRightBtn}>
+        <Pressable
+          style={styles.backRightBtn}
+          onPress={() => handleDelete({id: item.id})}>
           <Image
             style={styles.rightImage}
             source={ImageResources.delete_icon}
@@ -46,11 +73,13 @@ export default function StoreManagement() {
       </View>
     );
   };
+  const EmptyComponent = () => (
+    <Empty
+      image="store"
+      title={`Mağaza bulunamadı.\n Sağ üstteki icon'a tıklayarak mağaza oluşturabilisiniz`}
+    />
+  );
 
-  const {data} = useGetAllStoreQuery();
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <View style={styles.container}>
       <SwipeListView
@@ -64,6 +93,7 @@ export default function StoreManagement() {
         leftOpenValue={75}
         stopLeftSwipe={Dimensions.get('window').width / 2}
         stopRightSwipe={-Dimensions.get('window').width / 2}
+        ListEmptyComponent={EmptyComponent}
       />
     </View>
   );

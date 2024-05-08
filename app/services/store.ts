@@ -28,6 +28,21 @@ export const storeAPI = createApi({
       }),
       invalidatesTags: ['Store'],
     }),
+    deleteStore: builder.mutation<void, number>({
+      query: id => ({
+        url: `/store/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Store'],
+    }),
+    updateStore: builder.mutation<void, {data: UpdateStoreApiArg}>({
+      query: ({data}) => ({
+        url: `/store/${data.id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Store'],
+    }),
   }),
 });
 
@@ -50,4 +65,11 @@ export type CreateStoreApiArg = {
   address: string;
 };
 
-export const {useGetAllStoreQuery, useCreateStoreMutation} = storeAPI;
+export type UpdateStoreApiArg = Store;
+
+export const {
+  useGetAllStoreQuery,
+  useCreateStoreMutation,
+  useDeleteStoreMutation,
+  useUpdateStoreMutation,
+} = storeAPI;
