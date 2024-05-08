@@ -27,7 +27,8 @@ import AddHeaderItem from './app/components/AddHeaderItem';
 import CreateStore from './app/pages/CreateStore';
 import HeaderBackButton from './app/components/HeaderBackButton';
 import {COLORS} from './app/assets/values/colors';
-
+import {Provider} from 'react-redux';
+import {store} from './app/store';
 export type ScreenNames = [
   'Admin',
   'UserManagement',
@@ -125,9 +126,11 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <NavigationContainer>
-      <AppTabs />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AppTabs />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
