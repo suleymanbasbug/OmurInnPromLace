@@ -10,6 +10,8 @@ import {ImageURISource} from "react-native";
 */
 
 export class ImageResources {
+  static readonly add_circle: ImageURISource = require("../../../app/assets/images/add_circle.png");
   static readonly admin_icon: ImageURISource = require("../../../app/assets/images/admin_icon.png");
+  static readonly arrow_back: ImageURISource = require("../../../app/assets/images/arrow_back.png");
   static readonly right_arrow: ImageURISource = require("../../../app/assets/images/right_arrow.png");
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -6,40 +7,43 @@
  */
 
 import React, {useEffect} from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {Image, Text, View} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import {getFcmToken, registerListenerWithFCM} from './app/utils/fcmHelper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AdminList from './app/pages/AdminList';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {ImageResources} from './app/assets/Generated/ImageResources.g';
 import UserManagement from './app/pages/UserManagement';
 import ProductManagement from './app/pages/ProductManagement';
 import NotificationManagement from './app/pages/NotificationManagement';
 import StoreManagement from './app/pages/StoreManagement';
+import AddHeaderItem from './app/components/AddHeaderItem';
+import CreateStore from './app/pages/CreateStore';
+import HeaderBackButton from './app/components/HeaderBackButton';
+import {COLORS} from './app/assets/values/colors';
+
+export type ScreenNames = [
+  'Admin',
+  'UserManagement',
+  'ProductManagement',
+  'NotificationManagement',
+  'StoreManagement',
+  'CreateStore',
+];
+export type RootStackParamList = Record<ScreenNames[number], undefined>;
+export type StackNavigation = NavigationProp<RootStackParamList>;
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AdminStackRouter() {
+  const navigation = useNavigation<StackNavigation>();
   return (
     <Stack.Navigator>
       <Stack.Screen name="Admin" component={AdminList} />
@@ -49,7 +53,32 @@ function AdminStackRouter() {
         name="NotificationManagement"
         component={NotificationManagement}
       />
-      <Stack.Screen name="StoreManagement" component={StoreManagement} />
+
+      <Stack.Screen
+        name="StoreManagement"
+        component={StoreManagement}
+        options={{
+          title: 'Mağaza Yönetimi',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateStore');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
+      <Stack.Screen
+        name="CreateStore"
+        component={CreateStore}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+          title: 'Mağaza Oluştur',
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -85,36 +114,6 @@ function AppTabs() {
   );
 }
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): React.JSX.Element {
   useEffect(() => {
     getFcmToken();
@@ -125,36 +124,11 @@ function App(): React.JSX.Element {
     return unsubscribe;
   }, []);
 
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
     <NavigationContainer>
       <AppTabs />
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
