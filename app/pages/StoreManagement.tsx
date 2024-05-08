@@ -1,4 +1,5 @@
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
+import {COLORS} from '@app/assets/values/colors';
 import Seperator from '@app/components/Seperator';
 import {useGetAllStoreQuery} from '@app/services/store';
 import React, {useEffect} from 'react';
@@ -88,14 +89,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     width: '50%',
-    backgroundColor: '#ff4444',
+    backgroundColor: COLORS.delete,
   },
   backLeftBtn: {
     alignItems: 'flex-start',
     justifyContent: 'center',
     height: '100%',
     width: '50%',
-    backgroundColor: '#ffa500',
+    backgroundColor: COLORS.edit,
   },
   leftImage: {
     width: 24,
