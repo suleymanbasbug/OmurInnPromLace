@@ -29,6 +29,7 @@ import HeaderBackButton from './app/components/HeaderBackButton';
 import {COLORS} from './app/assets/values/colors';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
+import Toast from 'react-native-toast-message';
 export type ScreenNames = [
   'Admin',
   'UserManagement',
@@ -130,6 +131,8 @@ function App(): React.JSX.Element {
       <NavigationContainer>
         <AppTabs />
       </NavigationContainer>
+
+      <Toast />
     </Provider>
   );
 }

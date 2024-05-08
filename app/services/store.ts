@@ -14,11 +14,40 @@ export const storeAPI = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Store'],
   endpoints: builder => ({
-    getAllStore: builder.query({
+    getAllStore: builder.query<GetAllStoreApiResponse, GetAllStoreApiArg>({
       query: () => '/store',
+      providesTags: ['Store'],
+    }),
+    createStore: builder.mutation<CreateStoreApiResponse, CreateStoreApiArg>({
+      query: body => ({
+        url: '/store',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Store'],
     }),
   }),
 });
 
-export const {useGetAllStoreQuery} = storeAPI;
+export type GetAllStoreApiArg = void;
+export type Store = {
+  id: number;
+  name: string;
+  city: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type GetAllStoreApiResponse = Store[];
+
+export type CreateStoreApiResponse = Store;
+export type CreateStoreApiArg = {
+  name: string;
+  city: string;
+  address: string;
+};
+
+export const {useGetAllStoreQuery, useCreateStoreMutation} = storeAPI;

@@ -4,11 +4,13 @@ import {COLORS} from '../assets/values/colors';
 
 export default function SubmitButton({
   isLoading = false,
+  onPress,
 }: {
   isLoading?: boolean;
+  onPress?: () => void;
 }) {
   return (
-    <Pressable style={styles.button}>
+    <Pressable style={styles.button} onPress={onPress}>
       <Text style={styles.text}>KAYDET</Text>
       {isLoading && (
         <ActivityIndicator
