@@ -31,6 +31,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AdminList from './app/pages/AdminList';
 import {NavigationContainer} from '@react-navigation/native';
 import {ImageResources} from './app/assets/Generated/ImageResources.g';
+import UserManagement from './app/pages/UserManagement';
+import ProductManagement from './app/pages/ProductManagement';
+import NotificationManagement from './app/pages/NotificationManagement';
+import StoreManagement from './app/pages/StoreManagement';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,6 +43,13 @@ function AdminStackRouter() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Admin" component={AdminList} />
+      <Stack.Screen name="UserManagement" component={UserManagement} />
+      <Stack.Screen name="ProductManagement" component={ProductManagement} />
+      <Stack.Screen
+        name="NotificationManagement"
+        component={NotificationManagement}
+      />
+      <Stack.Screen name="StoreManagement" component={StoreManagement} />
     </Stack.Navigator>
   );
 }

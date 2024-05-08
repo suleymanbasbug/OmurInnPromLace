@@ -2,10 +2,19 @@ import React from 'react';
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {ImageResources} from '../assets/Generated/ImageResources.g';
 import Seperator from '../components/Seperator';
+import {useNavigation} from '@react-navigation/native';
+
+type AdminListType = {
+  title: string;
+  route: string;
+};
 
 export default function AdminList() {
-  const renderItem = ({item}: {item: any}) => (
-    <Pressable style={styles.listContainer}>
+  const navigation = useNavigation();
+  const renderItem = ({item}: {item: AdminListType}) => (
+    <Pressable
+      style={styles.listContainer}
+      onPress={() => navigation.navigate(item.route)}>
       <Text>{item.title}</Text>
       <Image
         source={ImageResources.right_arrow}
@@ -18,9 +27,10 @@ export default function AdminList() {
     <View style={styles.container}>
       <FlatList
         data={[
-          {title: 'Kullanıcı Yönetimi'},
-          {title: 'Ürün Yönetimi'},
-          {title: 'Bildirim Yönetimi'},
+          {title: 'Mağaza Yönetimi', route: 'StoreManagement'},
+          {title: 'Kullanıcı Yönetimi', route: 'UserManagement'},
+          {title: 'Ürün Yönetimi', route: 'ProductManagement'},
+          {title: 'Bildirim Yönetimi', route: 'NotificationManagement'},
         ]}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
