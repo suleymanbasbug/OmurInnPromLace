@@ -8,6 +8,7 @@
 import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,6 +26,53 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {getFcmToken, registerListenerWithFCM} from './app/utils/fcmHelper';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AdminList from './app/pages/AdminList';
+import {NavigationContainer} from '@react-navigation/native';
+import {ImageResources} from './app/assets/Generated/ImageResources.g';
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function AdminStackRouter() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Admin" component={AdminList} />
+    </Stack.Navigator>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Setting Screen</Text>
+    </View>
+  );
+}
+
+function AppTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="AdminTab"
+        component={AdminStackRouter}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Image
+                source={ImageResources.admin_icon}
+                style={{width: 24, height: 24}}
+              />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -73,36 +121,9 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <AppTabs />
+    </NavigationContainer>
   );
 }
 
