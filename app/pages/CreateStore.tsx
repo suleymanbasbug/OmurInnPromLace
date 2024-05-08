@@ -51,6 +51,7 @@ export default function CreateStore() {
         onChange={e => {
           setCreateFormData({...createFormData, name: e.nativeEvent.text});
         }}
+        placeholderTextColor={COLORS.primary}
       />
       <TextInput
         style={styles.textInput}
@@ -59,6 +60,7 @@ export default function CreateStore() {
         onChange={e => {
           setCreateFormData({...createFormData, city: e.nativeEvent.text});
         }}
+        placeholderTextColor={COLORS.primary}
       />
       <TextInput
         style={styles.textInputMultiline}
@@ -68,6 +70,7 @@ export default function CreateStore() {
         onChange={e => {
           setCreateFormData({...createFormData, address: e.nativeEvent.text});
         }}
+        placeholderTextColor={COLORS.primary}
       />
       <SubmitButton isLoading={isLoading} onPress={handleCreateStore} />
     </View>

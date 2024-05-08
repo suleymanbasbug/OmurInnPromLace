@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     paddingVertical: 10,
     paddingHorizontal: 16,
-    height: 100,
     backgroundColor: 'white',
     gap: 5,
     justifyContent: 'center',
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 100,
+    flex: 1,
   },
   backRightBtn: {
     alignItems: 'flex-end',
