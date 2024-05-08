@@ -12,14 +12,21 @@ import {
   View,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export default function StoreManagement() {
   const renderItem = ({item}: {item: any}) => {
     return (
       <View style={styles.renderItemContainer}>
-        <Text> Mağaza Adı : {item.name}</Text>
-        <Text> Şehir : {item.city}</Text>
-        <Text> Adres : {item.address}</Text>
+        <Text style={styles.description}>
+          <Text style={styles.title}>Mağaza Adı : </Text> {item.name}
+        </Text>
+        <Text style={styles.description}>
+          <Text style={styles.title}>Şehir : </Text> {item.city}
+        </Text>
+        <Text style={styles.description}>
+          <Text style={styles.title}>Adress : </Text> {item.address}
+        </Text>
       </View>
     );
   };
@@ -111,5 +118,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     tintColor: 'white',
     marginRight: 20,
+  },
+  title: {
+    fontFamily: 'Inter-Bold',
+  },
+  description: {
+    fontFamily: 'Inter-Medium',
   },
 });
