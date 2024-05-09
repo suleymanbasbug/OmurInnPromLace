@@ -2,6 +2,7 @@
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
 import Empty from '@app/components/Empty';
+import Searchbar from '@app/components/Searchbar';
 import Seperator from '@app/components/Seperator';
 import {
   Store,
@@ -10,7 +11,7 @@ import {
 } from '@app/services/store';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Alert,
   Dimensions,
@@ -27,6 +28,28 @@ export default function StoreManagement() {
   const [triggerDelete] = useDeleteStoreMutation();
   const navigation = useNavigation<StackNavigation>();
 
+  const [filteredData, setFilteredData] = React.useState<Store[]>([]);
+
+  const handleSearch = (value: string) => {
+    if (value) {
+      const filtered = data?.filter(item => {
+        return (
+          item.name.toLowerCase().includes(value.toLowerCase()) ||
+          item.city.toLowerCase().includes(value.toLowerCase()) ||
+          item.address.toLowerCase().includes(value.toLowerCase())
+        );
+      });
+      setFilteredData(filtered || []);
+    } else {
+      setFilteredData(data || []);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setFilteredData(data);
+    }
+  }, [data]);
   const handleDelete = ({id}: {id: number}) => {
     Alert.alert('Sil', 'Mağaza silinecek onaylıyor musun ?', [
       {
@@ -82,8 +105,9 @@ export default function StoreManagement() {
 
   return (
     <View style={styles.container}>
+      {data?.length > 0 && <Searchbar value="" onSubmit={handleSearch} />}
       <SwipeListView
-        data={data}
+        data={filteredData}
         useFlatList={true}
         keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
