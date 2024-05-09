@@ -25,7 +25,7 @@ export type GetAllSizeApiArg = void;
 
 export type Size = {
   id: number;
-  name: string;
+  size: string;
 };
 export type GetAllSizeApiResponse = Size[];
 

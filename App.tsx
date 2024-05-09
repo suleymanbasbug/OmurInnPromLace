@@ -35,12 +35,14 @@ import {Store} from '@app/services/store';
 import CreateUser from '@app/pages/CreateUser';
 import {User} from '@app/services/user';
 import EditUser from '@app/pages/EditUser';
+import CreateProduct from '@app/pages/CreateProduct';
 
 export type RootStackParamList = {
   Admin: undefined;
   UserManagement: undefined;
   CreateUser: undefined;
   ProductManagement: undefined;
+  CreateProduct: undefined;
   NotificationManagement: undefined;
   StoreManagement: undefined;
   CreateStore: undefined;
@@ -92,7 +94,31 @@ function AdminStackRouter() {
           title: 'Kullanıcı Düzenle',
         }}
       />
-      <Stack.Screen name="ProductManagement" component={ProductManagement} />
+      <Stack.Screen
+        name="ProductManagement"
+        component={ProductManagement}
+        options={{
+          title: 'Ürün Yönetimi',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateProduct');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
+      <Stack.Screen
+        name="CreateProduct"
+        component={CreateProduct}
+        options={{
+          title: 'Ürün Ekle',
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
       <Stack.Screen
         name="NotificationManagement"
         component={NotificationManagement}
