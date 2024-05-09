@@ -32,10 +32,12 @@ import {store} from './app/store';
 import Toast from 'react-native-toast-message';
 import EditStore from '@app/pages/EditStore';
 import {Store} from '@app/services/store';
+import CreateUser from '@app/pages/CreateUser';
 
 export type RootStackParamList = {
   Admin: undefined;
   UserManagement: undefined;
+  CreateUser: undefined;
   ProductManagement: undefined;
   NotificationManagement: undefined;
   StoreManagement: undefined;
@@ -53,7 +55,31 @@ function AdminStackRouter() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Admin" component={AdminList} />
-      <Stack.Screen name="UserManagement" component={UserManagement} />
+      <Stack.Screen
+        name="UserManagement"
+        component={UserManagement}
+        options={{
+          title: 'Kullanıcı Yönetimi',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateUser');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
+      <Stack.Screen
+        name="CreateUser"
+        component={CreateUser}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+          title: 'Kullanıcı Oluştur',
+        }}
+      />
       <Stack.Screen name="ProductManagement" component={ProductManagement} />
       <Stack.Screen
         name="NotificationManagement"

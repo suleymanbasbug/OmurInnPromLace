@@ -1,2 +1,3 @@
 import {storeAPI} from './store';
-export const apiList = [storeAPI];
+import {userRoleAPI} from './user-role';
+export const apiList = [storeAPI, userRoleAPI];
