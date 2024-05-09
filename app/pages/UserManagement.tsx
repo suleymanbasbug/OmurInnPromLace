@@ -3,11 +3,16 @@ import {COLORS} from '@app/assets/values/colors';
 import Empty from '@app/components/Empty';
 import Searchbar from '@app/components/Searchbar';
 import Seperator from '@app/components/Seperator';
-import {User, useGetAllUserQuery} from '@app/services/user';
+import {
+  User,
+  useDeleteUserMutation,
+  useGetAllUserQuery,
+} from '@app/services/user';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   Pressable,
@@ -20,6 +25,7 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 export default function UserManagement() {
   const navigation = useNavigation<StackNavigation>();
   const {data} = useGetAllUserQuery();
+  const [triggerDelete] = useDeleteUserMutation();
   const [filteredData, setFilteredData] = React.useState<User[]>([]);
 
   const handleSearch = (value: string) => {
@@ -35,6 +41,17 @@ export default function UserManagement() {
     } else {
       setFilteredData(data || []);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    Alert.alert('Sil', 'Kullanıcı silinecek onaylıyor musun ?', [
+      {
+        text: 'İptal',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Sil', onPress: () => triggerDelete(id)},
+    ]);
   };
 
   const renderItem = ({item}: {item: User}) => {
@@ -60,12 +77,12 @@ export default function UserManagement() {
       <View style={styles.renderHiddenItemContainer}>
         <Pressable
           style={styles.backLeftBtn}
-          onPress={() => console.log('edit')}>
+          onPress={() => navigation.navigate('EditUser', {user: item})}>
           <Image style={styles.leftImage} source={ImageResources.edit_icon} />
         </Pressable>
         <Pressable
           style={styles.backRightBtn}
-          onPress={() => console.log('handle delete')}>
+          onPress={() => handleDelete(item.id)}>
           <Image
             style={styles.rightImage}
             source={ImageResources.delete_icon}
@@ -77,15 +94,14 @@ export default function UserManagement() {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setFilteredData(data);
     }
   }, [data]);
 
   const EmptyComponent = () => (
     <Empty
-      image="store"
-      title={`Mağaza bulunamadı.\n Sağ üstteki icon'a tıklayarak mağaza oluşturabilisiniz`}
+      image="user"
+      title={`Kullanıcı bulunamadı.\n Sağ üstteki icon'a tıklayarak kullanıcı oluşturabilisiniz`}
     />
   );
 

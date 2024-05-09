@@ -19,4 +19,5 @@ export class ImageResources {
   static readonly headerbar_search: ImageURISource = require("../../../app/assets/images/headerbar_search.png");
   static readonly right_arrow: ImageURISource = require("../../../app/assets/images/right_arrow.png");
   static readonly store: ImageURISource = require("../../../app/assets/images/store.png");
+  static readonly user: ImageURISource = require("../../../app/assets/images/user.png");
 }

@@ -16,6 +16,7 @@ export const userAPI = createApi({
       return headers;
     },
   }),
+  tagTypes: ['User'],
   endpoints: builder => ({
     register: builder.mutation<void, RegisterApiArg>({
       query: data => ({
@@ -23,9 +24,27 @@ export const userAPI = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['User'],
     }),
     getAllUser: builder.query<GetAllUserResponse, void>({
       query: () => 'user',
+      providesTags: ['User'],
+    }),
+
+    updateUser: builder.mutation<void, UpdateUserApiArg>({
+      query: data => ({
+        url: `user/${data.id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    deleteUser: builder.mutation<void, number>({
+      query: id => ({
+        url: `user/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -38,6 +57,8 @@ export type RegisterApiArg = {
   store_id: number | null;
 };
 
+export type UpdateUserApiArg = RegisterApiArg & {id: number};
+
 export type GetAllUserResponse = User[];
 
 export type User = {
@@ -49,4 +70,9 @@ export type User = {
   store: Store | null;
 };
 
-export const {useRegisterMutation, useGetAllUserQuery} = userAPI;
+export const {
+  useRegisterMutation,
+  useGetAllUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userAPI;

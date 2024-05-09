@@ -2,7 +2,7 @@ import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import React from 'react';
 import {Image, ImageURISource, StyleSheet, Text, View} from 'react-native';
 
-export type EmptyListImages = 'store';
+export type EmptyListImages = 'store' | 'user';
 
 export type EmptyProps = {
   image: EmptyListImages;
@@ -11,6 +11,7 @@ export type EmptyProps = {
 
 const emptyImages: Record<EmptyListImages, ImageURISource> = {
   store: ImageResources.store,
+  user: ImageResources.user,
 };
 
 export default function Empty({image, title}: EmptyProps) {

@@ -33,6 +33,8 @@ import Toast from 'react-native-toast-message';
 import EditStore from '@app/pages/EditStore';
 import {Store} from '@app/services/store';
 import CreateUser from '@app/pages/CreateUser';
+import {User} from '@app/services/user';
+import EditUser from '@app/pages/EditUser';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -43,6 +45,7 @@ export type RootStackParamList = {
   StoreManagement: undefined;
   CreateStore: undefined;
   EditStore: {store: Store};
+  EditUser: {user: User};
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -78,6 +81,15 @@ function AdminStackRouter() {
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.primary,
           title: 'Kullanıcı Oluştur',
+        }}
+      />
+      <Stack.Screen
+        name="EditUser"
+        component={EditUser}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+          title: 'Kullanıcı Düzenle',
         }}
       />
       <Stack.Screen name="ProductManagement" component={ProductManagement} />
