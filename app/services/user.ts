@@ -17,7 +17,7 @@ export const userAPI = createApi({
   endpoints: builder => ({
     register: builder.mutation<void, RegisterApiArg>({
       query: data => ({
-        url: '/register',
+        url: 'user/register',
         method: 'POST',
         body: data,
       }),
@@ -30,7 +30,7 @@ export type RegisterApiArg = {
   password: string;
   password_confirmation: string;
   role_id: number;
-  store_id: number;
+  store_id: number | null;
 };
 
 export const {useRegisterMutation} = userAPI;
