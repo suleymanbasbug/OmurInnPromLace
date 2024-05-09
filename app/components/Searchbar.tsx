@@ -1,7 +1,13 @@
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
 import React, {useState} from 'react';
-import {Image, StyleSheet, TextInput, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -31,6 +37,16 @@ export default function Searchbar({
           onSubmitEditing={() => onSubmit(text)}
         />
       </View>
+      {text.length > 0 && (
+        <TouchableOpacity
+          style={styles.closeIconWrapper}
+          onPress={() => {
+            setText('');
+            onSubmit('');
+          }}>
+          <Image source={ImageResources.close} style={styles.closeImage} />
+        </TouchableOpacity>
+      )}
     </LinearGradient>
   );
 }
@@ -65,5 +81,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.black,
     paddingLeft: 30,
+  },
+  closeIconWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 35,
+    height: 36,
+  },
+  closeImage: {
+    width: 15,
+    height: 15,
+    tintColor: COLORS.primary,
   },
 });

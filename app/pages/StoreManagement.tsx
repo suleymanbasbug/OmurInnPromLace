@@ -71,7 +71,7 @@ export default function StoreManagement() {
           <Text style={styles.title}>Şehir : </Text> {item.city}
         </Text>
         <Text style={styles.description}>
-          <Text style={styles.title}>Adress : </Text> {item.address}
+          <Text style={styles.title}>Mağazanın Adresi : </Text> {item.address}
         </Text>
       </View>
     );
@@ -105,7 +105,9 @@ export default function StoreManagement() {
 
   return (
     <View style={styles.container}>
-      {data?.length > 0 && <Searchbar value="" onSubmit={handleSearch} />}
+      {data && data?.length > 0 ? (
+        <Searchbar value="" onSubmit={handleSearch} />
+      ) : null}
       <SwipeListView
         data={filteredData}
         useFlatList={true}

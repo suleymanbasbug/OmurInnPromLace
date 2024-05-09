@@ -1,5 +1,7 @@
 import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {UserRole} from './user-role';
+import {Store} from './store';
 
 export const userAPI = createApi({
   reducerPath: 'userAPI',
@@ -22,6 +24,9 @@ export const userAPI = createApi({
         body: data,
       }),
     }),
+    getAllUser: builder.query<GetAllUserResponse, void>({
+      query: () => 'user',
+    }),
   }),
 });
 
@@ -33,4 +38,15 @@ export type RegisterApiArg = {
   store_id: number | null;
 };
 
-export const {useRegisterMutation} = userAPI;
+export type GetAllUserResponse = User[];
+
+export type User = {
+  id: number;
+  username: string;
+  role_id: number;
+  store_id: number | null;
+  role: UserRole;
+  store: Store | null;
+};
+
+export const {useRegisterMutation, useGetAllUserQuery} = userAPI;
