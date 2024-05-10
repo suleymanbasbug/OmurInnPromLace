@@ -5,13 +5,15 @@ import {COLORS} from '../assets/values/colors';
 export default function SubmitButton({
   isLoading = false,
   onPress,
+  title = 'KAYDET',
 }: {
   isLoading?: boolean;
   onPress?: () => void;
+  title?: string;
 }) {
   return (
     <Pressable style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>KAYDET</Text>
+      <Text style={styles.text}>{title}</Text>
       {isLoading && (
         <ActivityIndicator
           color="white"

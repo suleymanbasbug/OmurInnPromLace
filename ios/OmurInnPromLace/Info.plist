@@ -54,6 +54,8 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Fotoğraf eklemek için kameraya erişim izni veriniz.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Fotoğraf eklemek için kütüphaneye erişim izni veriniz.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Bold.ttf</string>

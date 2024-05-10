@@ -16,11 +16,15 @@ export const productAPI = createApi({
     },
   }),
   endpoints: builder => ({
-    createProduct: builder.mutation<void, CreateProductApiArg>({
+    createProduct: builder.mutation<void, any>({
       query: body => ({
         url: '/product',
         method: 'POST',
         body,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
       }),
     }),
   }),
@@ -28,7 +32,7 @@ export const productAPI = createApi({
 
 export type Product = {
   code: string;
-  image: string;
+  image: any;
   colors: string[];
   sizes: string[];
 };
