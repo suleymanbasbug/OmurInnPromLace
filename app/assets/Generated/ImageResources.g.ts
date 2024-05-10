@@ -17,6 +17,7 @@ export class ImageResources {
   static readonly delete_icon: ImageURISource = require("../../../app/assets/images/delete_icon.png");
   static readonly edit_icon: ImageURISource = require("../../../app/assets/images/edit_icon.png");
   static readonly headerbar_search: ImageURISource = require("../../../app/assets/images/headerbar_search.png");
+  static readonly product: ImageURISource = require("../../../app/assets/images/product.png");
   static readonly right_arrow: ImageURISource = require("../../../app/assets/images/right_arrow.png");
   static readonly store: ImageURISource = require("../../../app/assets/images/store.png");
   static readonly user: ImageURISource = require("../../../app/assets/images/user.png");

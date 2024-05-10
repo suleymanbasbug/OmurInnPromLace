@@ -3,12 +3,17 @@ import {COLORS} from '@app/assets/values/colors';
 import Empty from '@app/components/Empty';
 import Searchbar from '@app/components/Searchbar';
 import Seperator from '@app/components/Seperator';
-import {ProductDto, useGetAllProductsQuery} from '@app/services/product';
+import {
+  ProductDto,
+  useDeleteProductMutation,
+  useGetAllProductsQuery,
+} from '@app/services/product';
 import {useGetAllSizeQuery} from '@app/services/size';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   Pressable,
@@ -23,6 +28,7 @@ export default function ProductManagement() {
   const navigation = useNavigation<StackNavigation>();
   const {data} = useGetAllProductsQuery();
   const {data: sizes} = useGetAllSizeQuery();
+  const [triggerDelete] = useDeleteProductMutation();
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
 
   useEffect(() => {
@@ -40,6 +46,17 @@ export default function ProductManagement() {
     } else {
       setFilteredData(data || []);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    Alert.alert('Sil', 'Ürün silinecek onaylıyor musun ?', [
+      {
+        text: 'İptal',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Sil', onPress: () => triggerDelete(id)},
+    ]);
   };
 
   const renderItem = ({item}: {item: ProductDto}) => {
@@ -94,7 +111,7 @@ export default function ProductManagement() {
         </Pressable>
         <Pressable
           style={styles.backRightBtn}
-          onPress={() => console.log('delete')}>
+          onPress={() => handleDelete(item.id)}>
           <Image
             style={styles.rightImage}
             source={ImageResources.delete_icon}
@@ -106,8 +123,8 @@ export default function ProductManagement() {
 
   const EmptyComponent = () => (
     <Empty
-      image="store"
-      title={`Mağaza bulunamadı.\n Sağ üstteki icon'a tıklayarak mağaza oluşturabilisiniz`}
+      image="product"
+      title={`Ürün bulunamadı.\n Sağ üstteki icon'a tıklayarak ürün oluşturabilisiniz`}
     />
   );
 
