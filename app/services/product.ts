@@ -27,6 +27,9 @@ export const productAPI = createApi({
         },
       }),
     }),
+    getAllProducts: builder.query<ProductDto[], void>({
+      query: () => '/product',
+    }),
   }),
 });
 
@@ -42,4 +45,4 @@ export type ProductDto = Product & {
 };
 
 export type CreateProductApiArg = Product;
-export const {useCreateProductMutation} = productAPI;
+export const {useCreateProductMutation, useGetAllProductsQuery} = productAPI;
