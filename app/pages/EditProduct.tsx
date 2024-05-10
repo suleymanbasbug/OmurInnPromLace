@@ -6,16 +6,22 @@ import React from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useCreateProductMutation} from '@app/services/product';
+import {useUpdateProductMutation} from '@app/services/product';
 import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
-import {StackNavigation} from 'App';
+import {RootStackParamList, StackNavigation} from 'App';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function CreateProduct() {
+interface Props
+  extends NativeStackScreenProps<RootStackParamList, 'EditProduct'> {}
+
+const EditProduct: React.FC<Props> = ({route}) => {
+  const {product} = route.params;
+  const imageURL = 'http://127.0.0.1:8000/storage/images/';
   const navigation = useNavigation<StackNavigation>();
   const {data: sizes} = useGetAllSizeQuery();
-  const [triggerCreateProduct] = useCreateProductMutation();
+  const [triggerEditProduct] = useUpdateProductMutation();
 
   const validationSchema = Yup.object().shape({
     code: Yup.string().required('Ürün kodu zorunludur'),
@@ -27,15 +33,14 @@ export default function CreateProduct() {
   return (
     <Formik
       initialValues={{
-        code: '',
+        code: product.code,
         image: undefined,
-        colors: '',
-        sizes: [],
+        colors: product.colors.join(','),
+        sizes: product.sizes,
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
         const formData = new FormData();
-
         values.image &&
           formData.append('image', {
             uri: (values.image as any).uri,
@@ -45,13 +50,14 @@ export default function CreateProduct() {
         formData.append('code', values.code);
         formData.append('colors', values.colors);
         formData.append('sizes', values.sizes?.toString() || []);
-        triggerCreateProduct(formData)
+        formData.append('_method', 'PUT');
+        triggerEditProduct({data: formData, id: product.id})
           .unwrap()
           .then(() => {
             Toast.show({
               type: 'success',
               text1: 'Başarılı',
-              text2: 'Ürün başarıyla oluşturuldu',
+              text2: 'Ürün başarıyla güncellendi',
               position: 'bottom',
               bottomOffset: 75,
             });
@@ -127,6 +133,15 @@ export default function CreateProduct() {
           {errors.sizes && touched.sizes && (
             <Text style={styles.errorText}>{errors.sizes}</Text>
           )}
+          {product.image && !values.image && (
+            <Image
+              source={{
+                uri: `${imageURL}${product.image}`,
+              }}
+              style={styles.image}
+              resizeMode="contain"
+            />
+          )}
           {values.image && (
             <Image
               source={{uri: (values.image as any).uri}}
@@ -151,7 +166,7 @@ export default function CreateProduct() {
       )}
     </Formik>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -185,3 +200,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export default EditProduct;

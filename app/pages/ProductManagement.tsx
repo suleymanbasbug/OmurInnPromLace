@@ -89,7 +89,7 @@ export default function ProductManagement() {
       <View style={styles.renderHiddenItemContainer}>
         <Pressable
           style={styles.backLeftBtn}
-          onPress={() => navigation.navigate('EditStore', {store: item})}>
+          onPress={() => navigation.navigate('EditProduct', {product: item})}>
           <Image style={styles.leftImage} source={ImageResources.edit_icon} />
         </Pressable>
         <Pressable

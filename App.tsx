@@ -36,6 +36,8 @@ import CreateUser from '@app/pages/CreateUser';
 import {User} from '@app/services/user';
 import EditUser from '@app/pages/EditUser';
 import CreateProduct from '@app/pages/CreateProduct';
+import {ProductDto} from '@app/services/product';
+import EditProduct from '@app/pages/EditProduct';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -48,6 +50,7 @@ export type RootStackParamList = {
   CreateStore: undefined;
   EditStore: {store: Store};
   EditUser: {user: User};
+  EditProduct: {product: ProductDto};
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -115,6 +118,15 @@ function AdminStackRouter() {
         component={CreateProduct}
         options={{
           title: 'Ürün Ekle',
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
+      <Stack.Screen
+        name="EditProduct"
+        component={EditProduct}
+        options={{
+          title: 'Ürün Düzenle',
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.primary,
         }}

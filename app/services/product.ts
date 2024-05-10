@@ -15,7 +15,12 @@ export const productAPI = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Product'],
   endpoints: builder => ({
+    getAllProducts: builder.query<ProductDto[], void>({
+      query: () => '/product',
+      providesTags: ['Product'],
+    }),
     createProduct: builder.mutation<void, any>({
       query: body => ({
         url: '/product',
@@ -26,9 +31,19 @@ export const productAPI = createApi({
           'Content-Type': 'multipart/form-data',
         },
       }),
+      invalidatesTags: ['Product'],
     }),
-    getAllProducts: builder.query<ProductDto[], void>({
-      query: () => '/product',
+    updateProduct: builder.mutation<void, {data: any; id: number}>({
+      query: ({data, id}) => ({
+        url: `/product/${id}`,
+        method: 'POST',
+        body: data,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+      invalidatesTags: ['Product'],
     }),
   }),
 });
@@ -45,4 +60,8 @@ export type ProductDto = Product & {
 };
 
 export type CreateProductApiArg = Product;
-export const {useCreateProductMutation, useGetAllProductsQuery} = productAPI;
+export const {
+  useCreateProductMutation,
+  useGetAllProductsQuery,
+  useUpdateProductMutation,
+} = productAPI;
