@@ -152,6 +152,13 @@ export default function CreateUser() {
             listControls={{
               emptyListMessage: 'Mağaza Bulunamadı',
             }}
+            isSearchable
+            searchControls={{
+              textInputProps: {
+                placeholder: 'Ara',
+                placeholderTextColor: COLORS.black,
+              },
+            }}
           />
           <SubmitButton isLoading={isLoading} onPress={handleSubmit} />
         </View>

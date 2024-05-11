@@ -36,6 +36,7 @@ export default function CreateNotification() {
           title: values.title,
           description: values.description,
           role_id: values.role_id,
+          sender_id: 1,
         })
           .unwrap()
           .then(() => {

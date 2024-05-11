@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 export default function CreateProduct() {
   const navigation = useNavigation<StackNavigation>();
   const {data: sizes} = useGetAllSizeQuery();
-  const [triggerCreateProduct] = useCreateProductMutation();
+  const [triggerCreateProduct, {isLoading}] = useCreateProductMutation();
 
   const validationSchema = Yup.object().shape({
     code: Yup.string().required('Ürün kodu zorunludur'),
@@ -146,7 +146,7 @@ export default function CreateProduct() {
             title="Resim Seç"
           />
 
-          <SubmitButton onPress={handleSubmit} />
+          <SubmitButton onPress={handleSubmit} isLoading={isLoading} />
         </View>
       )}
     </Formik>
