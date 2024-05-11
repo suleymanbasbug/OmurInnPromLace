@@ -6,8 +6,8 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Button, Image, Text, View} from 'react-native';
 
 import {getFcmToken, registerListenerWithFCM} from './app/utils/fcmHelper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -39,6 +39,7 @@ import CreateProduct from '@app/pages/CreateProduct';
 import {ProductDto} from '@app/services/product';
 import EditProduct from '@app/pages/EditProduct';
 import CreateNotification from '@app/pages/CreateNotification';
+import LoginPage from '@app/pages/LoginPage';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -53,6 +54,8 @@ export type RootStackParamList = {
   EditStore: {store: Store};
   EditUser: {user: User};
   EditProduct: {product: ProductDto};
+  Tabs: undefined;
+  Login: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -241,10 +244,39 @@ function AdminStackRouter() {
 }
 
 function SettingsScreen() {
+  const navigation = useNavigation<StackNavigation>();
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Setting Screen</Text>
+      <Button
+        title="Login"
+        onPress={() => {
+          navigation.navigate('Tabs');
+        }}
+      />
     </View>
+  );
+}
+
+function AppStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LoginPage}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          headerTintColor: COLORS.white,
+        }}
+      />
+      <Stack.Screen
+        name="Tabs"
+        component={AppTabs}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }
 
@@ -276,6 +308,8 @@ function App(): React.JSX.Element {
     getFcmToken();
   }, []);
 
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
   useEffect(() => {
     const unsubscribe = registerListenerWithFCM();
     return unsubscribe;
@@ -284,7 +318,7 @@ function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <AppTabs />
+        <AppStack />
       </NavigationContainer>
 
       <Toast />

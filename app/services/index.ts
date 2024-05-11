@@ -4,6 +4,7 @@ import {userAPI} from './user';
 import {sizeAPI} from './size';
 import {productAPI} from './product';
 import {notificationAPI} from './notification';
+import {authAPI} from './auth';
 export const apiList = [
   storeAPI,
   userRoleAPI,
@@ -11,4 +12,5 @@ export const apiList = [
   sizeAPI,
   productAPI,
   notificationAPI,
+  authAPI,
 ];
