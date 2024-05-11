@@ -308,8 +308,6 @@ function App(): React.JSX.Element {
     getFcmToken();
   }, []);
 
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-
   useEffect(() => {
     const unsubscribe = registerListenerWithFCM();
     return unsubscribe;

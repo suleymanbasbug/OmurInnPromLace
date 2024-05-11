@@ -6,8 +6,8 @@ export const authAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8000/api',
     prepareHeaders: (headers, {getState}) => {
-      //const token = (getState() as RootState).auth.token;
-      const token = null;
+      const token = (getState() as RootState).userSlice.token.access_token;
+
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -22,6 +22,12 @@ export const authAPI = createApi({
         body: data,
       }),
     }),
+    me: builder.mutation<any, void>({
+      query: () => ({
+        url: '/auth/me',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -30,4 +36,4 @@ export type LoginApiArg = {
   password: string;
 };
 
-export const {useLoginMutation} = authAPI;
+export const {useLoginMutation, useMeMutation} = authAPI;

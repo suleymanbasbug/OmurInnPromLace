@@ -3,6 +3,7 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {ImageResources} from '../assets/Generated/ImageResources.g';
 import Seperator from '../components/Seperator';
 import {useNavigation} from '@react-navigation/native';
+import {COLORS} from '@app/assets/values/colors';
 
 type AdminListType = {
   title: string;
@@ -18,7 +19,7 @@ export default function AdminList() {
       <Text>{item.title}</Text>
       <Image
         source={ImageResources.right_arrow}
-        style={{width: 24, height: 24}}
+        style={{width: 24, height: 24, tintColor: COLORS.primary}}
       />
     </Pressable>
   );
@@ -34,7 +35,7 @@ export default function AdminList() {
         ]}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={<Seperator />}
+        ItemSeparatorComponent={Seperator}
       />
     </View>
   );

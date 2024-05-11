@@ -1,17 +1,19 @@
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
 import SubmitButton from '@app/components/SubmitButton';
-import {useLoginMutation} from '@app/services/auth';
+import {useLoginMutation, useMeMutation} from '@app/services/auth';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import {Formik} from 'formik';
 import React from 'react';
 import {View, Text, Image, TextInput, StyleSheet} from 'react-native';
 import Toast from 'react-native-toast-message';
-
+import store from '@app/store';
+import {setToken, setUser} from '@app/store/userSlice';
 export default function LoginPage() {
   const navigation = useNavigation<StackNavigation>();
-  const [triggerLogin] = useLoginMutation();
+  const [triggerLogin, {isLoading}] = useLoginMutation();
+  const [triggerMe] = useMeMutation();
   return (
     <Formik
       initialValues={{
@@ -30,7 +32,15 @@ export default function LoginPage() {
             });
             return;
           } else {
-            navigation.navigate('Tabs');
+            store.dispatch(setToken(response.data));
+            triggerMe()
+              .then(res => {
+                store.dispatch(setUser(res.data));
+                navigation.navigate('Tabs');
+              })
+              .catch(err => {
+                console.log(err);
+              });
           }
         });
       }}>
@@ -62,7 +72,11 @@ export default function LoginPage() {
           {errors.password && touched.password && (
             <Text style={styles.errorText}>{errors.password}</Text>
           )}
-          <SubmitButton onPress={handleSubmit} title="Giriş Yap" />
+          <SubmitButton
+            onPress={handleSubmit}
+            title="Giriş Yap"
+            isLoading={isLoading}
+          />
         </View>
       )}
     </Formik>
