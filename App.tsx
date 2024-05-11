@@ -64,7 +64,16 @@ function AdminStackRouter() {
   const navigation = useNavigation<StackNavigation>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Admin" component={AdminList} />
+      <Stack.Screen
+        name="Admin"
+        component={AdminList}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          headerTintColor: COLORS.white,
+        }}
+      />
       <Stack.Screen
         name="UserManagement"
         component={UserManagement}
@@ -77,8 +86,11 @@ function AdminStackRouter() {
               }}
             />
           ),
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
         }}
       />
       <Stack.Screen
@@ -86,8 +98,11 @@ function AdminStackRouter() {
         component={CreateUser}
         options={{
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
           title: 'Kullanıcı Oluştur',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -95,8 +110,11 @@ function AdminStackRouter() {
         component={EditUser}
         options={{
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
           title: 'Kullanıcı Düzenle',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -112,7 +130,10 @@ function AdminStackRouter() {
             />
           ),
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -121,7 +142,10 @@ function AdminStackRouter() {
         options={{
           title: 'Ürün Ekle',
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -130,7 +154,10 @@ function AdminStackRouter() {
         options={{
           title: 'Ürün Düzenle',
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -146,7 +173,10 @@ function AdminStackRouter() {
             />
           ),
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
 
@@ -155,8 +185,11 @@ function AdminStackRouter() {
         component={CreateNotification}
         options={{
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
           title: 'Bildirim Oluştur',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
 
@@ -173,7 +206,10 @@ function AdminStackRouter() {
             />
           ),
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -181,8 +217,11 @@ function AdminStackRouter() {
         component={CreateStore}
         options={{
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
           title: 'Mağaza Oluştur',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
       <Stack.Screen
@@ -190,8 +229,11 @@ function AdminStackRouter() {
         component={EditStore}
         options={{
           headerLeft: HeaderBackButton,
-          headerTintColor: COLORS.primary,
+          headerTintColor: COLORS.white,
           title: 'Mağazayı Düzenle',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
         }}
       />
     </Stack.Navigator>
