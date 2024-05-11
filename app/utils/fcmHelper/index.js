@@ -158,9 +158,25 @@ async function onDisplayNotification(title, body, data) {
   });
 }
 
-export function joinRoom() {
-  messaging()
-    .subscribeToTopic('room')
+export async function joinRoom() {
+  await messaging()
+    .unsubscribeFromTopic('user')
+    .then(res => {
+      console.log('unsubscribeFromTopic', res);
+    });
+  await messaging()
+    .unsubscribeFromTopic('store_owner')
+    .then(res => {
+      console.log('unsubscribeFromTopic', res);
+    });
+  await messaging()
+    .unsubscribeFromTopic('admin')
+    .then(res => {
+      console.log('unsubscribeFromTopic', res);
+    });
+
+  await messaging()
+    .subscribeToTopic('store_owner')
     .then(() => {
       console.log('Subscribed to topic!');
     });

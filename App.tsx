@@ -38,6 +38,7 @@ import EditUser from '@app/pages/EditUser';
 import CreateProduct from '@app/pages/CreateProduct';
 import {ProductDto} from '@app/services/product';
 import EditProduct from '@app/pages/EditProduct';
+import CreateNotification from '@app/pages/CreateNotification';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -46,6 +47,7 @@ export type RootStackParamList = {
   ProductManagement: undefined;
   CreateProduct: undefined;
   NotificationManagement: undefined;
+  CreateNotification: undefined;
   StoreManagement: undefined;
   CreateStore: undefined;
   EditStore: {store: Store};
@@ -134,6 +136,28 @@ function AdminStackRouter() {
       <Stack.Screen
         name="NotificationManagement"
         component={NotificationManagement}
+        options={{
+          title: 'Bildirim Yönetimi',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateNotification');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+        }}
+      />
+
+      <Stack.Screen
+        name="CreateNotification"
+        component={CreateNotification}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.primary,
+          title: 'Bildirim Oluştur',
+        }}
       />
 
       <Stack.Screen

@@ -12,7 +12,7 @@ export default function SubmitButton({
   title?: string;
 }) {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable style={styles.button} onPress={onPress} disabled={isLoading}>
       <Text style={styles.text}>{title}</Text>
       {isLoading && (
         <ActivityIndicator
