@@ -6,10 +6,9 @@
  * @format
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Button, Image, Text, View} from 'react-native';
 
-import {getFcmToken, registerListenerWithFCM} from './app/utils/fcmHelper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AdminList from './app/pages/AdminList';
@@ -40,6 +39,8 @@ import {ProductDto} from '@app/services/product';
 import EditProduct from '@app/pages/EditProduct';
 import CreateNotification from '@app/pages/CreateNotification';
 import LoginPage from '@app/pages/LoginPage';
+import Home from '@app/pages/Home';
+import IncomingNotification from '@app/pages/IncomingNotification';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -56,6 +57,8 @@ export type RootStackParamList = {
   EditProduct: {product: ProductDto};
   Tabs: undefined;
   Login: undefined;
+  Home: undefined;
+  IncomingNotification: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -182,6 +185,25 @@ function AdminStackRouter() {
           },
         }}
       />
+      <Stack.Screen
+        name="IncomingNotification"
+        component={IncomingNotification}
+        options={{
+          title: 'Gelen Bildirimler',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateNotification');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
 
       <Stack.Screen
         name="CreateNotification"
@@ -243,6 +265,23 @@ function AdminStackRouter() {
   );
 }
 
+function HomeStackRouter() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          headerTintColor: COLORS.white,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function SettingsScreen() {
   const navigation = useNavigation<StackNavigation>();
   return (
@@ -283,6 +322,21 @@ function AppStack() {
 function AppTabs() {
   return (
     <Tab.Navigator>
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeStackRouter}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Image
+                source={ImageResources.admin_icon}
+                style={{width: 24, height: 24}}
+              />
+            </View>
+          ),
+        }}
+      />
       <Tab.Screen name="Settings" component={SettingsScreen} />
       <Tab.Screen
         name="AdminTab"
@@ -304,15 +358,6 @@ function AppTabs() {
 }
 
 function App(): React.JSX.Element {
-  useEffect(() => {
-    getFcmToken();
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = registerListenerWithFCM();
-    return unsubscribe;
-  }, []);
-
   return (
     <Provider store={store}>
       <NavigationContainer>

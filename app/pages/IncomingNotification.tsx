@@ -7,7 +7,6 @@ import {
 import React, {useEffect} from 'react';
 import {
   Dimensions,
-  FlatList,
   Image,
   Pressable,
   StyleSheet,
@@ -21,29 +20,11 @@ import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
-import {useNavigation} from '@react-navigation/native';
 
-type NotificationListType = {
-  title: string;
-  route: string;
-};
-
-export default function NotificationManagement() {
+export default function IncomingNotification() {
   const {data} = useGetNotificationsByUserRoleQuery(1);
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
-  const navigation = useNavigation();
-  const renderItem = ({item}: {item: NotificationListType}) => (
-    <Pressable
-      style={styles.listContainer}
-      onPress={() => navigation.navigate(item.route)}>
-      <Text>{item.title}</Text>
-      <Image
-        source={ImageResources.right_arrow}
-        style={{width: 24, height: 24, tintColor: COLORS.primary}}
-      />
-    </Pressable>
-  );
 
   useEffect(() => {
     if (data) {
@@ -89,28 +70,28 @@ export default function NotificationManagement() {
     }
   };
 
-  // const renderItem = ({item}: {item: Notification}) => {
-  //   return (
-  //     <View style={styles.renderItemContainer}>
-  //       <Text style={styles.title}>
-  //         Başlık : <Text style={styles.description}>{item.title}</Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Açıklama : <Text style={styles.description}>{item.description}</Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Gönderilme Zaman :{' '}
-  //         <Text style={styles.description}>
-  //           {dayjs(item.created_at).format('DD/MM/YYYY HH:mm:ss')}
-  //         </Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Gönderen Kullanıcı :{' '}
-  //         <Text style={styles.description}>{item.sender.username}</Text>
-  //       </Text>
-  //     </View>
-  //   );
-  // };
+  const renderItem = ({item}: {item: Notification}) => {
+    return (
+      <View style={styles.renderItemContainer}>
+        <Text style={styles.title}>
+          Başlık : <Text style={styles.description}>{item.title}</Text>
+        </Text>
+        <Text style={styles.title}>
+          Açıklama : <Text style={styles.description}>{item.description}</Text>
+        </Text>
+        <Text style={styles.title}>
+          Gönderilme Zaman :{' '}
+          <Text style={styles.description}>
+            {dayjs(item.created_at).format('DD/MM/YYYY HH:mm:ss')}
+          </Text>
+        </Text>
+        <Text style={styles.title}>
+          Gönderen Kullanıcı :{' '}
+          <Text style={styles.description}>{item.sender.username}</Text>
+        </Text>
+      </View>
+    );
+  };
 
   const renderHiddenItem = ({item}: {item: Notification}) => {
     return (
@@ -135,32 +116,21 @@ export default function NotificationManagement() {
   );
 
   return (
-    // <View style={styles.container}>
-    //   {data && data?.length > 0 ? (
-    //     <Searchbar value="" onSubmit={handleSearch} />
-    //   ) : null}
-    //   <SwipeListView
-    //     data={filteredData}
-    //     useFlatList={true}
-    //     keyExtractor={item => item.id.toString()}
-    //     renderItem={renderItem}
-    //     ItemSeparatorComponent={Seperator}
-    //     renderHiddenItem={renderHiddenItem}
-    //     rightOpenValue={-75}
-    //     disableRightSwipe
-    //     stopRightSwipe={-Dimensions.get('window').width / 2}
-    //     ListEmptyComponent={EmptyComponent}
-    //   />
-    // </View>
     <View style={styles.container}>
-      <FlatList
-        data={[
-          {title: 'Gönderilen Bildirimler', route: 'SendNotification'},
-          {title: 'Gelen Bildirimler', route: 'IncomingNotification'},
-        ]}
+      {data && data?.length > 0 ? (
+        <Searchbar value="" onSubmit={handleSearch} />
+      ) : null}
+      <SwipeListView
+        data={filteredData}
+        useFlatList={true}
+        keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={Seperator}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-75}
+        disableRightSwipe
+        stopRightSwipe={-Dimensions.get('window').width / 2}
+        ListEmptyComponent={EmptyComponent}
       />
     </View>
   );
