@@ -10,6 +10,7 @@ import {useSubscribeToTopicsMutation} from '@app/services/notification';
 import Tabbar from './components/Tabbar';
 import Auth from './components/Auth';
 import {NavigationContainer} from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 
 const NavigationHandler = () => {
   const [triggerRefreshToken] = useRefreshTokenMutation();
@@ -51,11 +52,17 @@ const NavigationHandler = () => {
     }
 
     async function progressiveLogin(): Promise<void> {
-      const tokenResult = await tryAutoLogin();
-      store.dispatch(setToken(tokenResult));
+      try {
+        const tokenResult = await tryAutoLogin();
+        store.dispatch(setToken(tokenResult));
+      } catch {
+        SplashScreen.hide();
+      }
       //store.dispatch(login(tokenResult)); // Login via autologin
     }
-    progressiveLogin();
+    progressiveLogin().finally(() => {
+      SplashScreen.hide();
+    });
     const unsubscribe = registerListenerWithFCM();
     return unsubscribe;
   }, []);

@@ -361,9 +361,7 @@ function AppTabs() {
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <AppStack />
-      </NavigationContainer>
+      <AppNavigatorUI />
       <Toast />
     </Provider>
   );
