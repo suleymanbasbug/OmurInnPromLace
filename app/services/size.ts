@@ -1,13 +1,13 @@
 import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-
+import {API_URL} from '@env';
 export const sizeAPI = createApi({
   reducerPath: 'sizeAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:8000/api',
+    baseUrl: API_URL,
     prepareHeaders: (headers, {getState}) => {
-      //const token = (getState() as RootState).auth.token;
-      const token = null;
+      const token = (getState() as RootState).user.access_token;
+
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }

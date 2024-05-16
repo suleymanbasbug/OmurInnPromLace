@@ -18,6 +18,7 @@ import CreateNotification from '@app/pages/CreateNotification';
 import StoreManagement from '@app/pages/StoreManagement';
 import CreateStore from '@app/pages/CreateStore';
 import EditStore from '@app/pages/EditStore';
+import SendNotification from '@app/pages/SendNotification';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AdminStack() {
@@ -144,6 +145,26 @@ export function AdminStack() {
         component={IncomingNotification}
         options={{
           title: 'Gelen Bildirimler',
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateNotification');
+              }}
+            />
+          ),
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="SendNotification"
+        component={SendNotification}
+        options={{
+          title: 'Gönderilen Bildirimler',
           headerRight: () => (
             <AddHeaderItem
               onPress={() => {

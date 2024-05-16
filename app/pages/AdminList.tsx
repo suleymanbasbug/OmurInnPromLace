@@ -7,7 +7,11 @@ import {COLORS} from '@app/assets/values/colors';
 
 type AdminListType = {
   title: string;
-  route: string;
+  route:
+    | 'StoreManagement'
+    | 'UserManagement'
+    | 'ProductManagement'
+    | 'NotificationManagement';
 };
 
 export default function AdminList() {

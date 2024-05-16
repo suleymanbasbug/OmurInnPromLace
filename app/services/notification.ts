@@ -1,11 +1,11 @@
 import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {User} from './user';
-
+import {API_URL} from '@env';
 export const notificationAPI = createApi({
   reducerPath: 'notificationAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:8000/api',
+    baseUrl: API_URL,
     prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).user.access_token;
       if (token) {
@@ -42,6 +42,10 @@ export const notificationAPI = createApi({
         body: data,
       }),
     }),
+    getNotificationsBySender: builder.query<NotificationResponse, void>({
+      query: () => 'notification/sender',
+      providesTags: ['Notification'],
+    }),
   }),
 });
 
@@ -74,4 +78,5 @@ export const {
   useGetNotificationsByUserRoleQuery,
   useDeleteNotificationMutation,
   useSubscribeToTopicsMutation,
+  useGetNotificationsBySenderQuery,
 } = notificationAPI;

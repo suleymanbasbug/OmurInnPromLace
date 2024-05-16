@@ -2,15 +2,14 @@ import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {UserRole} from './user-role';
 import {Store} from './store';
-import {To} from '@react-navigation/native/lib/typescript/src/useLinkTo';
-
+import {API_URL} from '@env';
 export const userAPI = createApi({
   reducerPath: 'userAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:8000/api',
+    baseUrl: API_URL,
     prepareHeaders: (headers, {getState}) => {
-      //const token = (getState() as RootState).auth.token;
-      const token = null;
+      const token = (getState() as RootState).user.access_token;
+
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }

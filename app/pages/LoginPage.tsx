@@ -32,9 +32,11 @@ export default function LoginPage() {
             });
             return;
           } else {
+            //@ts-ignore
             store.dispatch(setToken(response.data));
             triggerMe()
               .then(res => {
+                //@ts-ignore
                 store.dispatch(setUser(res.data));
               })
               .catch(err => {

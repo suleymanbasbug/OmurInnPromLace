@@ -34,6 +34,7 @@ export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   IncomingNotification: undefined;
+  SendNotification: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

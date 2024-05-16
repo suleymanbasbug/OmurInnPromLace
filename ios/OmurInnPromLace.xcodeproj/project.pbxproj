@@ -37,7 +37,7 @@
 		00E356EE1AD99517003FC87E /* OmurInnPromLaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OmurInnPromLaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* OmurInnPromLaceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OmurInnPromLaceTests.m; sourceTree = "<group>"; };
-		01CD5776C78F4CD9B387381D /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../app/assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
+		01CD5776C78F4CD9B387381D /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../app/assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		0C094E2464EAC406D05158B1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = OmurInnPromLace/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OmurInnPromLace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmurInnPromLace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OmurInnPromLace/AppDelegate.h; sourceTree = "<group>"; };
@@ -46,17 +46,17 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OmurInnPromLace/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OmurInnPromLace/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = OmurInnPromLace/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		186CFC189B92471AB3BE362A /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../app/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		186CFC189B92471AB3BE362A /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../app/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-OmurInnPromLace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace.debug.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace/Pods-OmurInnPromLace.debug.xcconfig"; sourceTree = "<group>"; };
 		4F5ED6BD2BE7C53500197B46 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4F5ED6BF2BE7C6CD00197B46 /* OmurInnPromLace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = OmurInnPromLace.entitlements; path = OmurInnPromLace/OmurInnPromLace.entitlements; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-OmurInnPromLace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace.release.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace/Pods-OmurInnPromLace.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace-OmurInnPromLaceTests/Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7DEAE10366424E5E81D0EEB2 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../app/assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		7DEAE10366424E5E81D0EEB2 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../app/assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = OmurInnPromLace/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-OmurInnPromLace-OmurInnPromLaceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace-OmurInnPromLaceTests.release.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace-OmurInnPromLaceTests/Pods-OmurInnPromLace-OmurInnPromLaceTests.release.xcconfig"; sourceTree = "<group>"; };
-		C5FA97A0B2B64BF996926733 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../app/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
-		CEBFEBFB42524CD38FE39A55 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../app/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		C5FA97A0B2B64BF996926733 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../app/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		CEBFEBFB42524CD38FE39A55 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../app/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		D6F778E964996D60B5116754 /* Pods_OmurInnPromLace_OmurInnPromLaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OmurInnPromLace_OmurInnPromLaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C458531E7884F120B3F15C /* Pods_OmurInnPromLace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OmurInnPromLace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -179,7 +179,6 @@
 				7DEAE10366424E5E81D0EEB2 /* Inter-SemiBold.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

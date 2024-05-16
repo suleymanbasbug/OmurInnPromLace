@@ -2,7 +2,7 @@ import {COLORS} from '@app/assets/values/colors';
 import {
   Notification,
   useDeleteNotificationMutation,
-  useGetNotificationsByUserRoleQuery,
+  useGetNotificationsBySenderQuery,
 } from '@app/services/notification';
 import React, {useEffect} from 'react';
 import {
@@ -22,7 +22,7 @@ import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
 
 export default function SendNotification() {
-  const {data} = useGetNotificationsByUserRoleQuery(1);
+  const {data} = useGetNotificationsBySenderQuery();
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
 
