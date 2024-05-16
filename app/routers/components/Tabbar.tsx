@@ -3,9 +3,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import React from 'react';
 import {Image, View} from 'react-native';
-import Home from './Home';
-import Settings from './Settings';
-import {AdminStackRouter} from './Admin';
+import HomeStack from './HomeStack';
+import SettingsStack from './SettingsStack';
+import {AdminStack} from './AdminStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ export default function Tabbar() {
     <Tab.Navigator>
       <Tab.Screen
         name="HomeTab"
-        component={Home}
+        component={HomeStack}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
@@ -27,10 +27,25 @@ export default function Tabbar() {
           ),
         }}
       />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsStack}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Image
+                source={ImageResources.admin_icon}
+                style={{width: 24, height: 24}}
+              />
+            </View>
+          ),
+          title: 'Ayarlar',
+        }}
+      />
       <Tab.Screen
         name="AdminTab"
-        component={AdminStackRouter}
+        component={AdminStack}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

@@ -22,6 +22,7 @@ export default function LoginPage() {
         password: '',
       }}
       onSubmit={values => {
+        console.log(values);
         triggerLogin(values).then(response => {
           if (response.hasOwnProperty('error')) {
             Toast.show({
@@ -37,7 +38,6 @@ export default function LoginPage() {
             triggerMe()
               .then(res => {
                 store.dispatch(setUser(res.data));
-                navigation.navigate('Tabs');
               })
               .catch(err => {
                 console.log(err);

@@ -18,6 +18,7 @@ const NavigationHandler = () => {
   const access_token = useSelector(
     (state: RootState) => state.user.access_token,
   );
+
   const isLoggedIn = !!access_token;
 
   useEffect(() => {

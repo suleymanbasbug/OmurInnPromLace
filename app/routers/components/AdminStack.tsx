@@ -20,7 +20,7 @@ import CreateStore from '@app/pages/CreateStore';
 import EditStore from '@app/pages/EditStore';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export function AdminStackRouter() {
+export function AdminStack() {
   const navigation = useNavigation<StackNavigation>();
   return (
     <Stack.Navigator>
