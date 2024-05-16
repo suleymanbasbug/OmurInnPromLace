@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import store, {RootState, useAppDispatch, useAppSelector} from '@app/store';
+import store, {RootState} from '@app/store';
 import {getTokenFromKeychain} from '@app/utils/keychain';
 import {useRefreshTokenMutation} from '@app/services/auth';
 import {setToken} from '@app/store/userSlice';
