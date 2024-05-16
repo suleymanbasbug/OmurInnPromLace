@@ -9,6 +9,7 @@ import {
   useDeleteStoreMutation,
   useGetAllStoreQuery,
 } from '@app/services/store';
+import {resetRtkState} from '@app/store';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
@@ -57,7 +58,15 @@ export default function StoreManagement() {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'Sil', onPress: () => triggerDelete(id)},
+      {
+        text: 'Sil',
+        onPress: () =>
+          triggerDelete(id)
+            .unwrap()
+            .then(() => {
+              resetRtkState();
+            }),
+      },
     ]);
   };
 

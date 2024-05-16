@@ -6,7 +6,7 @@ import Settings from '@app/pages/Settings';
 import AddHeaderItem from '@app/components/AddHeaderItem';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {useLogoutMutation} from '@app/services/auth';
-import store from '@app/store';
+import store, {resetRtkState} from '@app/store';
 import {
   initialTokenState,
   initialUserState,
@@ -24,6 +24,7 @@ const AddHeaderItemComponent = () => {
           .then(() => {
             store.dispatch(setToken(initialTokenState));
             store.dispatch(setUser(initialUserState));
+            resetRtkState();
           });
       }}
       image={ImageResources.logout}

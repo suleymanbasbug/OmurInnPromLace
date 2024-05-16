@@ -10,18 +10,23 @@ import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
+import {useGetAllStoreQuery} from '@app/services/store';
 
 export default function CreateNotification() {
   const {data: userRole} = useGetAllUserRoleQuery();
+  const {data: stores} = useGetAllStoreQuery();
   const [triggerSendPushNotification, {isLoading}] =
     useSendPushNotificationMutation();
   const navigation = useNavigation<StackNavigation>();
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Başlık zorunludur'),
     description: Yup.string().required('Açıklama zorunludur'),
-    role_id: Yup.array()
-      .required('Kullanıcı rolü seçimi zorunludur')
-      .min(1, 'Kullanıcı rolü seçimi zorunludur'),
+    role_id: Yup.array(),
+    store_id: Yup.array().when('role_id', {
+      is: (role_id: number[]) => role_id.length === 0,
+      then: (schema: any) => schema.min(1, 'Mağaza veya Rol seçimi zorunludur'),
+      otherwise: (schema: any) => schema.notRequired(),
+    }),
   });
   return (
     <Formik
@@ -29,6 +34,7 @@ export default function CreateNotification() {
         role_id: [],
         title: '',
         description: '',
+        store_id: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -94,6 +100,32 @@ export default function CreateNotification() {
           />
           {errors.role_id && touched.role_id && (
             <Text style={styles.errorText}>{errors.role_id}</Text>
+          )}
+          <Dropdown
+            placeholder="Hangi Mağazaya Bildirim Gönderilecek?"
+            options={
+              stores?.map(store => ({
+                label: store.name,
+                value: store.id,
+              })) || []
+            }
+            selectedValue={values.store_id}
+            onValueChange={(value: any) => {
+              setFieldValue('store_id', value);
+            }}
+            primaryColor={COLORS.primary}
+            dropdownIcon={<></>}
+            dropdownStyle={styles.dropDownStyle}
+            placeholderStyle={{color: COLORS.black}}
+            listControls={{
+              emptyListMessage: 'Mağaza Bulunamadı',
+              selectAllText: 'Hepsini Seç',
+              unselectAllText: 'Hepsini Kaldır',
+            }}
+            isMultiple
+          />
+          {errors.store_id && touched.store_id && (
+            <Text style={styles.errorText}>{errors.store_id}</Text>
           )}
           <TextInput
             style={styles.textInput}

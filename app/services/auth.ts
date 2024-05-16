@@ -5,7 +5,7 @@ import {API_URL} from '@env';
 export const authAPI = createApi({
   reducerPath: 'authPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: 'http://localhost:8000/api',
     prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).user.access_token;
 

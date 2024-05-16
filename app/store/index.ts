@@ -24,6 +24,12 @@ export const store = configureStore({
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middleware),
 });
 
+export const resetRtkState = () => {
+  apiList.map(apiState => {
+    store.dispatch(apiState.util.resetApiState());
+  });
+};
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;

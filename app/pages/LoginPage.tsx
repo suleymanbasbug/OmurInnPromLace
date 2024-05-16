@@ -20,7 +20,6 @@ export default function LoginPage() {
         password: '',
       }}
       onSubmit={values => {
-        console.log(values);
         triggerLogin(values).then(response => {
           if (response.hasOwnProperty('error')) {
             Toast.show({
