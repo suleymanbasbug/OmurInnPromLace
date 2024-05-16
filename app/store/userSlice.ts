@@ -3,13 +3,13 @@ import {User} from '@app/services/user';
 import {saveTokenToKeychain} from '@app/utils/keychain';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
-const initialTokenState: LoginApiResponse = {
+export const initialTokenState: LoginApiResponse = {
   access_token: '',
   token_type: '',
   expires_in: 0,
 };
 
-const initialUserState: User = {
+export const initialUserState: User = {
   id: 0,
   username: '',
   role_id: 0,

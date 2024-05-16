@@ -2,8 +2,7 @@ import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
 import SubmitButton from '@app/components/SubmitButton';
 import {useLoginMutation, useMeMutation} from '@app/services/auth';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from 'App';
+
 import {Formik} from 'formik';
 import React from 'react';
 import {View, Text, Image, TextInput, StyleSheet} from 'react-native';
@@ -12,7 +11,6 @@ import store from '@app/store';
 import {setToken, setUser} from '@app/store/userSlice';
 
 export default function LoginPage() {
-  const navigation = useNavigation<StackNavigation>();
   const [triggerLogin, {isLoading}] = useLoginMutation();
   const [triggerMe] = useMeMutation();
   return (
