@@ -23,6 +23,7 @@ export default function CreateUser() {
       .required('Şifre onayı zorunludur')
       .oneOf([Yup.ref('password')], 'Şifreler uyuşmuyor'),
     role_id: Yup.number().required('Kullanıcı rolü zorunludur'),
+    store_id: Yup.number().required('Mağaza zorunludur'),
   });
   const [createUser, {isLoading}] = useRegisterMutation();
 
@@ -82,6 +83,7 @@ export default function CreateUser() {
             onChangeText={handleChange('username')}
             onBlur={handleBlur('username')}
             placeholderTextColor={COLORS.black}
+            autoCapitalize="none"
           />
           {errors.username && touched.username && (
             <Text style={styles.errorText}>{errors.username}</Text>
@@ -94,6 +96,7 @@ export default function CreateUser() {
             onBlur={handleBlur('password')}
             placeholderTextColor={COLORS.black}
             secureTextEntry={true}
+            autoCapitalize="none"
           />
           {errors.password && touched.password && (
             <Text style={styles.errorText}>{errors.password}</Text>
@@ -160,6 +163,9 @@ export default function CreateUser() {
               },
             }}
           />
+          {errors.store_id && touched.store_id && (
+            <Text style={styles.errorText}>{errors.store_id}</Text>
+          )}
           <SubmitButton isLoading={isLoading} onPress={handleSubmit} />
         </View>
       )}

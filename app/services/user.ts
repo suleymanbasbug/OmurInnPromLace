@@ -2,6 +2,7 @@ import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {UserRole} from './user-role';
 import {Store} from './store';
+import {To} from '@react-navigation/native/lib/typescript/src/useLinkTo';
 
 export const userAPI = createApi({
   reducerPath: 'userAPI',
@@ -61,6 +62,12 @@ export type UpdateUserApiArg = RegisterApiArg & {id: number};
 
 export type GetAllUserResponse = User[];
 
+export type Topic = {
+  id: number;
+  title: string;
+  user_id: number;
+};
+
 export type User = {
   id: number;
   username: string;
@@ -68,6 +75,7 @@ export type User = {
   store_id: number | null;
   role: UserRole;
   store: Store | null;
+  topics: Topic[];
 };
 
 export const {

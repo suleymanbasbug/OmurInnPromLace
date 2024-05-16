@@ -10,6 +10,7 @@ import {View, Text, Image, TextInput, StyleSheet} from 'react-native';
 import Toast from 'react-native-toast-message';
 import store from '@app/store';
 import {setToken, setUser} from '@app/store/userSlice';
+
 export default function LoginPage() {
   const navigation = useNavigation<StackNavigation>();
   const [triggerLogin, {isLoading}] = useLoginMutation();

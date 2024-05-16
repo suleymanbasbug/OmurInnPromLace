@@ -7,8 +7,7 @@ export const notificationAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8000/api',
     prepareHeaders: (headers, {getState}) => {
-      //const token = (getState() as RootState).auth.token;
-      const token = null;
+      const token = (getState() as RootState).user.access_token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -23,7 +22,7 @@ export const notificationAPI = createApi({
     }),
     sendPushNotification: builder.mutation<void, SendPushNotificationApiArg>({
       query: data => ({
-        url: '/send-notification',
+        url: '/notification/send',
         method: 'POST',
         body: data,
       }),
@@ -35,6 +34,13 @@ export const notificationAPI = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['Notification'],
+    }),
+    subscribeToTopics: builder.mutation<void, SubcribeToTopicsApiArg>({
+      query: data => ({
+        url: '/notification/subscribe',
+        method: 'POST',
+        body: data,
+      }),
     }),
   }),
 });
@@ -59,8 +65,13 @@ export type Notification = {
 
 export type NotificationResponse = Notification[];
 
+export type SubcribeToTopicsApiArg = {
+  token: string;
+};
+
 export const {
   useSendPushNotificationMutation,
   useGetNotificationsByUserRoleQuery,
   useDeleteNotificationMutation,
+  useSubscribeToTopicsMutation,
 } = notificationAPI;

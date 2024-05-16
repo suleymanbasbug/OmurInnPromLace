@@ -18,7 +18,7 @@ const middleware: any = [...apiList.map(api => api.middleware), rtkQueryLogger];
 
 export const store = configureStore({
   reducer: {
-    userSlice: userSlice.reducer,
+    user: userSlice.reducer,
     ...Object.fromEntries(apiList.map(api => [api.reducerPath, api.reducer])),
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middleware),

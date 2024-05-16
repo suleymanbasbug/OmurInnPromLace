@@ -9,7 +9,6 @@ export const getFcmToken = async () => {
   try {
     token = await messaging().getToken();
     console.log('getFcmToken-->', token);
-    joinRoom();
   } catch (error) {
     console.log('getFcmToken Device Token error ', error);
   }
@@ -158,26 +157,26 @@ async function onDisplayNotification(title, body, data) {
   });
 }
 
-export async function joinRoom() {
-  await messaging()
-    .unsubscribeFromTopic('user')
-    .then(res => {
-      console.log('unsubscribeFromTopic', res);
-    });
-  await messaging()
-    .unsubscribeFromTopic('store_owner')
-    .then(res => {
-      console.log('unsubscribeFromTopic', res);
-    });
-  await messaging()
-    .unsubscribeFromTopic('admin')
-    .then(res => {
-      console.log('unsubscribeFromTopic', res);
-    });
+// export async function joinRoom() {
+//   await messaging()
+//     .unsubscribeFromTopic('user')
+//     .then(res => {
+//       console.log('unsubscribeFromTopic', res);
+//     });
+//   await messaging()
+//     .unsubscribeFromTopic('store_owner')
+//     .then(res => {
+//       console.log('unsubscribeFromTopic', res);
+//     });
+//   await messaging()
+//     .unsubscribeFromTopic('admin')
+//     .then(res => {
+//       console.log('unsubscribeFromTopic', res);
+//     });
 
-  await messaging()
-    .subscribeToTopic('store_owner')
-    .then(() => {
-      console.log('Subscribed to topic!');
-    });
-}
+//   await messaging()
+//     .subscribeToTopic('store_owner')
+//     .then(() => {
+//       console.log('Subscribed to topic!');
+//     });
+// }

@@ -1,12 +1,13 @@
 import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {User} from './user';
 
 export const authAPI = createApi({
   reducerPath: 'authPI',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8000/api',
     prepareHeaders: (headers, {getState}) => {
-      const token = (getState() as RootState).userSlice.token.access_token;
+      const token = (getState() as RootState).user.access_token;
 
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
@@ -15,17 +16,26 @@ export const authAPI = createApi({
     },
   }),
   endpoints: builder => ({
-    login: builder.mutation<any, LoginApiArg>({
+    login: builder.mutation<LoginApiResponse, LoginApiArg>({
       query: data => ({
         url: '/auth/login',
         method: 'POST',
         body: data,
       }),
     }),
-    me: builder.mutation<any, void>({
+    me: builder.mutation<User, void>({
       query: () => ({
         url: '/auth/me',
         method: 'POST',
+      }),
+    }),
+    refreshToken: builder.mutation<LoginApiResponse, RefreshTokenArg>({
+      query: ({token}: {token: string}) => ({
+        url: '/auth/refresh',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),
@@ -36,4 +46,15 @@ export type LoginApiArg = {
   password: string;
 };
 
-export const {useLoginMutation, useMeMutation} = authAPI;
+export type LoginApiResponse = {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+};
+
+export type RefreshTokenArg = {
+  token: string;
+};
+
+export const {useLoginMutation, useMeMutation, useRefreshTokenMutation} =
+  authAPI;
