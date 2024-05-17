@@ -20,9 +20,13 @@ import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
+import {useSelector} from 'react-redux';
+import {RootState} from '@app/store';
 
 export default function IncomingNotification() {
-  const {data} = useGetNotificationsByUserRoleQuery(1);
+  const roleId = useSelector((state: RootState) => state.user.role_id);
+
+  const {data} = useGetNotificationsByUserRoleQuery(roleId);
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
 

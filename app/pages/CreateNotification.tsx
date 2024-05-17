@@ -11,8 +11,11 @@ import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import {useGetAllStoreQuery} from '@app/services/store';
+import {useSelector} from 'react-redux';
+import {RootState} from '@app/store';
 
 export default function CreateNotification() {
+  const userId = useSelector((state: RootState) => state.user.id);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
   const [triggerSendPushNotification, {isLoading}] =
@@ -42,7 +45,7 @@ export default function CreateNotification() {
           title: values.title,
           description: values.description,
           role_id: values.role_id,
-          sender_id: 1,
+          sender_id: userId,
         })
           .unwrap()
           .then(() => {
