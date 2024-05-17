@@ -2,6 +2,8 @@ import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {User} from './user';
 import {API_URL} from '@env';
+import {Store} from './store';
+import {UserRole} from './user-role';
 export const notificationAPI = createApi({
   reducerPath: 'notificationAPI',
   baseQuery: fetchBaseQuery({
@@ -42,7 +44,10 @@ export const notificationAPI = createApi({
         body: data,
       }),
     }),
-    getNotificationsBySender: builder.query<NotificationResponse, void>({
+    getNotificationsBySender: builder.query<
+      GetNotificationBySenderResponse,
+      void
+    >({
       query: () => 'notification/sender',
       providesTags: ['Notification'],
     }),
@@ -52,8 +57,8 @@ export const notificationAPI = createApi({
 export type SendPushNotificationApiArg = {
   title: string;
   description: string;
-  role_id: number[];
   sender_id: number;
+  topics: string[];
 };
 
 export type Notification = {
@@ -66,6 +71,13 @@ export type Notification = {
   updated_at: string;
   sender: User;
 };
+
+export type NotificationBySender = {
+  stores: Store[];
+  user_roles: UserRole[];
+} & Notification;
+
+export type GetNotificationBySenderResponse = NotificationBySender[];
 
 export type NotificationResponse = Notification[];
 

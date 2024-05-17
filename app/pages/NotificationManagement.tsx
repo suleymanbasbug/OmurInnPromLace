@@ -1,26 +1,9 @@
 import {COLORS} from '@app/assets/values/colors';
-import {
-  Notification,
-  useDeleteNotificationMutation,
-  useGetNotificationsByUserRoleQuery,
-} from '@app/services/notification';
-import React, {useEffect} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import dayjs from 'dayjs';
-import Searchbar from '@app/components/Searchbar';
-import {SwipeListView} from 'react-native-swipe-list-view';
+
+import React from 'react';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
-import Empty from '@app/components/Empty';
-import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 
 type NotificationListType = {
@@ -29,9 +12,6 @@ type NotificationListType = {
 };
 
 export default function NotificationManagement() {
-  const {data} = useGetNotificationsByUserRoleQuery(1);
-  const [triggerDelete] = useDeleteNotificationMutation();
-  const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
   const navigation = useNavigation();
   const renderItem = ({item}: {item: NotificationListType}) => (
     <Pressable
@@ -45,113 +25,7 @@ export default function NotificationManagement() {
     </Pressable>
   );
 
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
-
-  const handleDelete = (id: number) => {
-    triggerDelete(id)
-      .unwrap()
-      .then(() => {
-        Toast.show({
-          type: 'success',
-          text1: 'Başarılı',
-          text2: 'Bildirim silindi',
-          position: 'bottom',
-          bottomOffset: 75,
-        });
-      })
-      .catch(() => {
-        Toast.show({
-          type: 'error',
-          text1: 'Hata',
-          text2: 'Bildirim silinemedi',
-          position: 'bottom',
-          bottomOffset: 75,
-        });
-      });
-  };
-
-  const handleSearch = (value: string) => {
-    if (value) {
-      const filtered = data?.filter(item => {
-        return (
-          item.title.toLowerCase().includes(value.toLowerCase()) ||
-          item.description.toLowerCase().includes(value.toLowerCase()) ||
-          item.sender.username.toLowerCase().includes(value.toLowerCase())
-        );
-      });
-      setFilteredData(filtered || []);
-    } else {
-      setFilteredData(data || []);
-    }
-  };
-
-  // const renderItem = ({item}: {item: Notification}) => {
-  //   return (
-  //     <View style={styles.renderItemContainer}>
-  //       <Text style={styles.title}>
-  //         Başlık : <Text style={styles.description}>{item.title}</Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Açıklama : <Text style={styles.description}>{item.description}</Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Gönderilme Zaman :{' '}
-  //         <Text style={styles.description}>
-  //           {dayjs(item.created_at).format('DD/MM/YYYY HH:mm:ss')}
-  //         </Text>
-  //       </Text>
-  //       <Text style={styles.title}>
-  //         Gönderen Kullanıcı :{' '}
-  //         <Text style={styles.description}>{item.sender.username}</Text>
-  //       </Text>
-  //     </View>
-  //   );
-  // };
-
-  const renderHiddenItem = ({item}: {item: Notification}) => {
-    return (
-      <View style={styles.renderHiddenItemContainer}>
-        <Pressable
-          style={styles.backImageContainer}
-          onPress={() => handleDelete(item.id)}>
-          <Image
-            style={styles.rightImage}
-            source={ImageResources.delete_icon}
-          />
-        </Pressable>
-      </View>
-    );
-  };
-
-  const EmptyComponent = () => (
-    <Empty
-      image="notification"
-      title={`Bildirim bulunamadı.\n Sağ üstteki icon'a tıklayarak bildirim oluşturabilisiniz`}
-    />
-  );
-
   return (
-    // <View style={styles.container}>
-    //   {data && data?.length > 0 ? (
-    //     <Searchbar value="" onSubmit={handleSearch} />
-    //   ) : null}
-    //   <SwipeListView
-    //     data={filteredData}
-    //     useFlatList={true}
-    //     keyExtractor={item => item.id.toString()}
-    //     renderItem={renderItem}
-    //     ItemSeparatorComponent={Seperator}
-    //     renderHiddenItem={renderHiddenItem}
-    //     rightOpenValue={-75}
-    //     disableRightSwipe
-    //     stopRightSwipe={-Dimensions.get('window').width / 2}
-    //     ListEmptyComponent={EmptyComponent}
-    //   />
-    // </View>
     <View style={styles.container}>
       <FlatList
         data={[

@@ -1,6 +1,6 @@
 import {COLORS} from '@app/assets/values/colors';
 import {
-  Notification,
+  NotificationBySender,
   useDeleteNotificationMutation,
   useGetNotificationsBySenderQuery,
 } from '@app/services/notification';
@@ -24,7 +24,9 @@ import Toast from 'react-native-toast-message';
 export default function SendNotification() {
   const {data} = useGetNotificationsBySenderQuery();
   const [triggerDelete] = useDeleteNotificationMutation();
-  const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
+  const [filteredData, setFilteredData] = React.useState<
+    NotificationBySender[]
+  >([]);
 
   useEffect(() => {
     if (data) {
@@ -70,7 +72,7 @@ export default function SendNotification() {
     }
   };
 
-  const renderItem = ({item}: {item: Notification}) => {
+  const renderItem = ({item}: {item: NotificationBySender}) => {
     return (
       <View style={styles.renderItemContainer}>
         <Text style={styles.title}>
@@ -85,6 +87,22 @@ export default function SendNotification() {
             {dayjs(item.created_at).format('DD/MM/YYYY HH:mm:ss')}
           </Text>
         </Text>
+        {item.stores.length > 0 && (
+          <Text style={styles.title}>
+            Gönderilen Mağazalar :{' '}
+            <Text style={styles.description}>
+              {item.stores.map(store => store.name).join(', ')}
+            </Text>
+          </Text>
+        )}
+        {item.user_roles.length > 0 && (
+          <Text style={styles.title}>
+            Gönderilen Kullanıcı Roller :{' '}
+            <Text style={styles.description}>
+              {item.user_roles.map(role => role.name).join(', ')}
+            </Text>
+          </Text>
+        )}
         <Text style={styles.title}>
           Gönderen Kullanıcı :{' '}
           <Text style={styles.description}>{item.sender.username}</Text>
@@ -93,7 +111,7 @@ export default function SendNotification() {
     );
   };
 
-  const renderHiddenItem = ({item}: {item: Notification}) => {
+  const renderHiddenItem = ({item}: {item: NotificationBySender}) => {
     return (
       <View style={styles.renderHiddenItemContainer}>
         <Pressable
@@ -131,6 +149,7 @@ export default function SendNotification() {
         disableRightSwipe
         stopRightSwipe={-Dimensions.get('window').width / 2}
         ListEmptyComponent={EmptyComponent}
+        recalculateHiddenLayout
       />
     </View>
   );

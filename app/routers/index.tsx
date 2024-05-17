@@ -3,8 +3,8 @@ import React, {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import store, {RootState} from '@app/store';
 import {getTokenFromKeychain} from '@app/utils/keychain';
-import {useRefreshTokenMutation} from '@app/services/auth';
-import {setToken} from '@app/store/userSlice';
+import {useMeMutation, useRefreshTokenMutation} from '@app/services/auth';
+import {setToken, setUser} from '@app/store/userSlice';
 import {getFcmToken, registerListenerWithFCM} from '@app/utils/fcmHelper';
 import {useSubscribeToTopicsMutation} from '@app/services/notification';
 import Tabbar from './components/Tabbar';
@@ -14,6 +14,7 @@ import SplashScreen from 'react-native-splash-screen';
 
 const NavigationHandler = () => {
   const [triggerRefreshToken] = useRefreshTokenMutation();
+  const [triggerMe] = useMeMutation();
   const [triggerSubscribeToTopics] = useSubscribeToTopicsMutation();
   const access_token = useSelector(
     (state: RootState) => state.user.access_token,
@@ -56,10 +57,13 @@ const NavigationHandler = () => {
       try {
         const tokenResult = await tryAutoLogin();
         store.dispatch(setToken(tokenResult));
+        if (tokenResult) {
+          const meResult = await triggerMe().unwrap();
+          store.dispatch(setUser(meResult));
+        }
       } catch {
         SplashScreen.hide();
       }
-      //store.dispatch(login(tokenResult)); // Login via autologin
     }
     progressiveLogin().finally(() => {
       SplashScreen.hide();

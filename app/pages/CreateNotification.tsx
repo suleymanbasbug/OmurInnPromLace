@@ -1,7 +1,7 @@
 import {COLORS} from '@app/assets/values/colors';
 import SubmitButton from '@app/components/SubmitButton';
 import {useSendPushNotificationMutation} from '@app/services/notification';
-import {useGetAllUserRoleQuery} from '@app/services/user-role';
+import {UserRole, useGetAllUserRoleQuery} from '@app/services/user-role';
 import {Formik} from 'formik';
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
@@ -10,10 +10,10 @@ import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
-import {useGetAllStoreQuery} from '@app/services/store';
+import {Store, useGetAllStoreQuery} from '@app/services/store';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
-
+import _ from 'lodash';
 export default function CreateNotification() {
   const userId = useSelector((state: RootState) => state.user.id);
   const {data: userRole} = useGetAllUserRoleQuery();
@@ -41,11 +41,20 @@ export default function CreateNotification() {
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
+        const storeTopics = _.at(_.keyBy(stores, 'id'), values.store_id).map(
+          (store: Store) => store.name,
+        );
+
+        const roleTopics = _.at(_.keyBy(userRole, 'id'), values.role_id).map(
+          (role: UserRole) => role.room,
+        );
+        const topics = _.union(storeTopics, roleTopics);
+
         triggerSendPushNotification({
           title: values.title,
           description: values.description,
-          role_id: values.role_id,
           sender_id: userId,
+          topics,
         })
           .unwrap()
           .then(() => {

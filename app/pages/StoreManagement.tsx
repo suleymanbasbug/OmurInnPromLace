@@ -129,6 +129,7 @@ export default function StoreManagement() {
         stopLeftSwipe={Dimensions.get('window').width / 2}
         stopRightSwipe={-Dimensions.get('window').width / 2}
         ListEmptyComponent={EmptyComponent}
+        recalculateHiddenLayout
       />
     </View>
   );

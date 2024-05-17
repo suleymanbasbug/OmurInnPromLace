@@ -135,6 +135,7 @@ export default function IncomingNotification() {
         disableRightSwipe
         stopRightSwipe={-Dimensions.get('window').width / 2}
         ListEmptyComponent={EmptyComponent}
+        recalculateHiddenLayout
       />
     </View>
   );
