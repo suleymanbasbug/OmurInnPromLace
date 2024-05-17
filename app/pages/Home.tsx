@@ -5,16 +5,16 @@ import Seperator from '@app/components/Seperator';
 import SubmitButton from '@app/components/SubmitButton';
 import {ProductDto, useGetAllProductsQuery} from '@app/services/product';
 import {useGetAllSizeQuery} from '@app/services/size';
-import {RootState} from '@app/store';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 export default function Home() {
   const imageURL = 'http://127.0.0.1:8000/storage/images/';
   const {data} = useGetAllProductsQuery();
   const {data: sizes} = useGetAllSizeQuery();
-  const user = useSelector((state: RootState) => state.user);
+  const navigation = useNavigation<StackNavigation>();
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
 
   const handleSearch = (value: string) => {
@@ -36,7 +36,11 @@ export default function Home() {
 
   const renderItem = ({item}: {item: ProductDto}) => {
     return (
-      <View style={styles.renderItemContainer}>
+      <Pressable
+        style={styles.renderItemContainer}
+        onPress={() => {
+          navigation.navigate('Sales', {product: item});
+        }}>
         <Image
           source={{
             uri: `${imageURL}${item.image}`,
@@ -72,7 +76,7 @@ export default function Home() {
             ))}
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
