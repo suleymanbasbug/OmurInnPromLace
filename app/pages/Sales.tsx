@@ -1,14 +1,16 @@
 import {COLORS} from '@app/assets/values/colors';
 import {useGetAllSizeQuery} from '@app/services/size';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from 'App';
+import {RootStackParamList, StackNavigation} from 'App';
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import _ from 'lodash';
+import LottieView from 'lottie-react-native';
 
 import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
 import {ProductDto} from '@app/services/product';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<RootStackParamList, 'Sales'> {}
 export type SalesProduct = {
@@ -18,11 +20,28 @@ export type SalesProduct = {
   color: string;
 };
 const Sales: React.FC<Props> = ({route}) => {
+  const navigation = useNavigation<StackNavigation>();
+
   const {product} = route.params;
   const {data: sizes} = useGetAllSizeQuery();
 
   const [salesProduct, setSalesProduct] = React.useState<SalesProduct>();
   const [selectedProduct, setSelectedProduct] = React.useState<ProductDto>();
+  const confettiRef = React.useRef<LottieView>(null);
+
+  const triggerConfetti = () => {
+    if (confettiRef.current) {
+      confettiRef.current.play(0);
+    }
+  };
+
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
+  };
 
   useEffect(() => {
     if (product) {
@@ -109,7 +128,10 @@ const Sales: React.FC<Props> = ({route}) => {
           nextBtnTextStyle={styles.buttonText}
           previousBtnText="Geri"
           finishBtnText="Tamamla"
-          nextBtnDisabled={!salesProduct?.size}>
+          nextBtnDisabled={!salesProduct?.size}
+          onSubmit={() => {
+            triggerConfetti();
+          }}>
           <View style={{alignItems: 'center', paddingHorizontal: 16}}>
             <Dropdown
               placeholder="Beden Seçiniz"
@@ -139,6 +161,13 @@ const Sales: React.FC<Props> = ({route}) => {
           </View>
         </ProgressStep>
       </ProgressSteps>
+      <LottieView
+        source={require('@app/assets/test.json')}
+        loop={false}
+        style={styles.lottie}
+        ref={confettiRef}
+        onAnimationFinish={handleBack}
+      />
     </View>
   );
 };
@@ -165,5 +194,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: 'white',
     marginTop: 8,
+  },
+  lottie: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    pointerEvents: 'none',
   },
 });
