@@ -46,7 +46,7 @@ export default function LoginPage() {
       }}>
       {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
         <View style={styles.container}>
-          <Image source={ImageResources.login} style={styles.icon} />
+          <Image source={ImageResources.icon} style={styles.icon} />
           <TextInput
             style={styles.textInput}
             placeholder="Kullanıcı Adı"
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    tintColor: COLORS.primary,
+    width: 200,
+    height: 200,
   },
 });

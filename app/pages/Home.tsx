@@ -98,7 +98,7 @@ export default function Home() {
       <View style={styles.actionButtonContainer}>
         <SubmitButton
           title="Satış Yaptım"
-          onPress={() => console.log('Ürün Ekle')}
+          onPress={() => navigation.navigate('Sales', {product: null})}
         />
       </View>
     </View>

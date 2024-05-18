@@ -6,6 +6,7 @@ export const sizeAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: (headers, {getState}) => {
+      headers.set('Accept', 'application/json');
       const token = (getState() as RootState).user.access_token;
 
       if (token) {

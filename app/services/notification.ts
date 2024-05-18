@@ -10,6 +10,8 @@ export const notificationAPI = createApi({
     baseUrl: API_URL,
     prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).user.access_token;
+
+      headers.set('Accept', 'application/json');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -49,6 +51,10 @@ export const notificationAPI = createApi({
       void
     >({
       query: () => 'notification/sender',
+      providesTags: ['Notification'],
+    }),
+    getNotificationsByUser: builder.query<NotificationResponse, void>({
+      query: () => 'notification/user',
       providesTags: ['Notification'],
     }),
   }),
@@ -91,4 +97,5 @@ export const {
   useDeleteNotificationMutation,
   useSubscribeToTopicsMutation,
   useGetNotificationsBySenderQuery,
+  useGetNotificationsByUserQuery,
 } = notificationAPI;

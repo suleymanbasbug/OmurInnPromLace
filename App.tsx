@@ -36,6 +36,7 @@ export type RootStackParamList = {
   IncomingNotification: undefined;
   SendNotification: undefined;
   Sales: {product: ProductDto | null};
+  NotificationList: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

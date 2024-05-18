@@ -8,6 +8,8 @@ export const productAPI = createApi({
     prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).user.access_token;
 
+      headers.set('Accept', 'application/json');
+
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
