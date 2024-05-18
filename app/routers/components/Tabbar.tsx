@@ -2,12 +2,13 @@ import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 import {AdminStack} from './AdminStack';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
+import {COLORS} from '@app/assets/values/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,11 +24,26 @@ export default function Tabbar() {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image
-                source={ImageResources.admin_icon}
-                style={{width: 24, height: 24}}
+                source={ImageResources.home}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? COLORS.primary : 'black',
+                }}
               />
             </View>
           ),
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={{
+                  color: focused ? COLORS.primary : 'black',
+                  fontSize: 12,
+                }}>
+                Anasayfa
+              </Text>
+            );
+          },
         }}
       />
       <Tab.Screen
@@ -38,12 +54,26 @@ export default function Tabbar() {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image
-                source={ImageResources.admin_icon}
-                style={{width: 24, height: 24}}
+                source={ImageResources.settings}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? COLORS.primary : 'black',
+                }}
               />
             </View>
           ),
-          title: 'Ayarlar',
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={{
+                  color: focused ? COLORS.primary : 'black',
+                  fontSize: 12,
+                }}>
+                Ayarlar
+              </Text>
+            );
+          },
         }}
       />
       {role_id === 1 && (
@@ -56,10 +86,25 @@ export default function Tabbar() {
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
                   source={ImageResources.admin_icon}
-                  style={{width: 24, height: 24}}
+                  style={{
+                    width: 24,
+                    height: 24,
+                    tintColor: focused ? COLORS.primary : 'black',
+                  }}
                 />
               </View>
             ),
+            tabBarLabel: ({focused}) => {
+              return (
+                <Text
+                  style={{
+                    color: focused ? COLORS.primary : 'black',
+                    fontSize: 12,
+                  }}>
+                  Admin Panel
+                </Text>
+              );
+            },
           }}
         />
       )}

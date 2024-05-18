@@ -9,9 +9,9 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {IMAGE_URL} from '@env';
 
 export default function Home() {
-  const imageURL = 'http://127.0.0.1:8000/storage/images/';
   const {data} = useGetAllProductsQuery();
   const {data: sizes} = useGetAllSizeQuery();
   const navigation = useNavigation<StackNavigation>();
@@ -43,7 +43,7 @@ export default function Home() {
         }}>
         <Image
           source={{
-            uri: `${imageURL}${item.image}`,
+            uri: `${IMAGE_URL}${item.image}`,
           }}
           style={styles.image}
         />

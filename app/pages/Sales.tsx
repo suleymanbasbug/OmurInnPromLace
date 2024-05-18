@@ -16,6 +16,7 @@ import Seperator from '@app/components/Seperator';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
 import {useSendPushNotificationMutation} from '@app/services/notification';
+import {IMAGE_URL} from '@env';
 
 interface Props extends NativeStackScreenProps<RootStackParamList, 'Sales'> {}
 export type SalesProduct = {
@@ -27,7 +28,6 @@ export type SalesProduct = {
 const Sales: React.FC<Props> = ({route}) => {
   const user = useSelector((state: RootState) => state.user);
   const navigation = useNavigation<StackNavigation>();
-  const imageURL = 'http://127.0.0.1:8000/storage/images/';
 
   const {product} = route.params;
   const {data: sizes} = useGetAllSizeQuery();
@@ -118,7 +118,7 @@ const Sales: React.FC<Props> = ({route}) => {
         }}>
         <Image
           source={{
-            uri: `${imageURL}${item.image}`,
+            uri: `${IMAGE_URL}${item.image}`,
           }}
           style={styles.image}
         />

@@ -12,13 +12,13 @@ import Toast from 'react-native-toast-message';
 import {RootStackParamList, StackNavigation} from 'App';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {IMAGE_URL} from '@env';
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, 'EditProduct'> {}
 
 const EditProduct: React.FC<Props> = ({route}) => {
   const {product} = route.params;
-  const imageURL = 'http://127.0.0.1:8000/storage/images/';
   const navigation = useNavigation<StackNavigation>();
   const {data: sizes} = useGetAllSizeQuery();
   const [triggerEditProduct] = useUpdateProductMutation();
@@ -136,7 +136,7 @@ const EditProduct: React.FC<Props> = ({route}) => {
           {product.image && !values.image && (
             <Image
               source={{
-                uri: `${imageURL}${product.image}`,
+                uri: `${IMAGE_URL}${product.image}`,
               }}
               style={styles.image}
               resizeMode="contain"

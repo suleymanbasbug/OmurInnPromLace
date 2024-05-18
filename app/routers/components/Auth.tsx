@@ -16,6 +16,7 @@ export default function Auth() {
             backgroundColor: COLORS.primary,
           },
           headerTintColor: COLORS.white,
+          title: 'Giriş Yap',
         }}
       />
     </Stack.Navigator>

@@ -22,9 +22,9 @@ import {
   View,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {IMAGE_URL} from '@env';
 
 export default function ProductManagement() {
-  const imageURL = 'http://127.0.0.1:8000/storage/images/';
   const navigation = useNavigation<StackNavigation>();
   const {data} = useGetAllProductsQuery();
   const {data: sizes} = useGetAllSizeQuery();
@@ -64,7 +64,7 @@ export default function ProductManagement() {
       <View style={styles.renderItemContainer}>
         <Image
           source={{
-            uri: `${imageURL}${item.image}`,
+            uri: `${IMAGE_URL}${item.image}`,
           }}
           style={styles.image}
         />

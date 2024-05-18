@@ -30,11 +30,15 @@ export default function NotificationList() {
 
   useEffect(() => {
     if (deletedNotification && data) {
-      const newData = _.cloneDeep(data);
-      const result = _.reject(newData, item =>
-        deletedNotification.deleted_notification_ids.includes(item.id),
-      );
-      setNotifications(result as Notification[]);
+      if (deletedNotification?.deleted_notification_ids) {
+        const newData = _.cloneDeep(data);
+        const result = _.reject(newData, item =>
+          deletedNotification.deleted_notification_ids.includes(item.id),
+        );
+        setNotifications(result as Notification[]);
+      } else {
+        setNotifications(data as Notification[]);
+      }
     }
   }, [deletedNotification, data]);
 

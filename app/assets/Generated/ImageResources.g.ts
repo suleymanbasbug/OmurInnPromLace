@@ -17,12 +17,14 @@ export class ImageResources {
   static readonly delete_icon: ImageURISource = require("../../../app/assets/images/delete_icon.png");
   static readonly edit_icon: ImageURISource = require("../../../app/assets/images/edit_icon.png");
   static readonly headerbar_search: ImageURISource = require("../../../app/assets/images/headerbar_search.png");
+  static readonly home: ImageURISource = require("../../../app/assets/images/home.png");
   static readonly icon: ImageURISource = require("../../../app/assets/images/icon.png");
   static readonly login: ImageURISource = require("../../../app/assets/images/login.png");
   static readonly logout: ImageURISource = require("../../../app/assets/images/logout.png");
   static readonly notification: ImageURISource = require("../../../app/assets/images/notification.png");
   static readonly product: ImageURISource = require("../../../app/assets/images/product.png");
   static readonly right_arrow: ImageURISource = require("../../../app/assets/images/right_arrow.png");
+  static readonly settings: ImageURISource = require("../../../app/assets/images/settings.png");
   static readonly store: ImageURISource = require("../../../app/assets/images/store.png");
   static readonly user: ImageURISource = require("../../../app/assets/images/user.png");
 }
