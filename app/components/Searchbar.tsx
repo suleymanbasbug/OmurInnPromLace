@@ -21,7 +21,7 @@ export default function Searchbar({
   const [text, setText] = useState(value);
   return (
     <LinearGradient
-      colors={[COLORS.primary, COLORS.white]}
+      colors={[COLORS.primary, COLORS.primary]}
       style={styles.container}>
       <View style={styles.wrapper}>
         <Image source={ImageResources.headerbar_search} style={styles.icon} />
