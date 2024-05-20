@@ -28,7 +28,7 @@ export default function SubmitButton({
 const styles = StyleSheet.create({
   button: {
     width: '100%',
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.buttonColor,
     padding: 12,
     borderRadius: 8,
     marginVertical: 12,

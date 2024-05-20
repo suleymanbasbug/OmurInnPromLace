@@ -21,8 +21,6 @@ export default function Searchbar({
   const [text, setText] = useState(value);
   return (
     <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
       colors={[COLORS.primary, COLORS.white]}
       style={styles.container}>
       <View style={styles.wrapper}>
