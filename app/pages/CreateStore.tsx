@@ -28,18 +28,16 @@ export default function CreateStore() {
           position: 'bottom',
           bottomOffset: 75,
         });
+        navigation.goBack();
       })
-      .catch(() => {
+      .catch(error => {
         Toast.show({
           type: 'error',
           text1: 'Hata',
-          text2: 'Mağaza oluşturulurken bir hata oluştu',
+          text2: error.data.message || 'Mağaza Oluşturulurken bir hata oluştu',
           position: 'bottom',
           bottomOffset: 75,
         });
-      })
-      .finally(() => {
-        navigation.goBack();
       });
   };
   return (

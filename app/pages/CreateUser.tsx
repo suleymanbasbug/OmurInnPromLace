@@ -17,7 +17,9 @@ export default function CreateUser() {
   const {data: stores} = useGetAllStoreQuery();
   const navigation = useNavigation<StackNavigation>();
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Kullanıcı adı zorunludur'),
+    username: Yup.string()
+      .required('Kullanıcı adı zorunludur')
+      .matches(/^\S*$/, 'Boşluk içeremez'),
     password: Yup.string().required('Şifre zorunludur'),
     password_confirmation: Yup.string()
       .required('Şifre onayı zorunludur')

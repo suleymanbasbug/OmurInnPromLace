@@ -1,6 +1,7 @@
-module.exports = {
-  presets: ['module:@react-native/babel-preset'],
-  plugins: [
+module.exports = function (api) {
+  api.cache(false);
+  const presets = ['module:@react-native/babel-preset'];
+  const plugins = [
     [
       'module-resolver',
       {
@@ -17,5 +18,6 @@ module.exports = {
         path: '.env',
       },
     ],
-  ],
+  ];
+  return {presets, plugins};
 };

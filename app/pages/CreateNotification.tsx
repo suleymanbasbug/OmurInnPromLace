@@ -1,7 +1,7 @@
 import {COLORS} from '@app/assets/values/colors';
 import SubmitButton from '@app/components/SubmitButton';
 import {useSendPushNotificationMutation} from '@app/services/notification';
-import {UserRole, useGetAllUserRoleQuery} from '@app/services/user-role';
+import {useGetAllUserRoleQuery} from '@app/services/user-role';
 import {Formik} from 'formik';
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
@@ -10,54 +10,52 @@ import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
-import {Store, useGetAllStoreQuery} from '@app/services/store';
+import {useGetAllStoreQuery} from '@app/services/store';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
-import _ from 'lodash';
+import {useGetAllUserQuery} from '@app/services/user';
 export default function CreateNotification() {
   const userId = useSelector((state: RootState) => state.user.id);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
+  const {data: users} = useGetAllUserQuery();
   const [triggerSendPushNotification, {isLoading}] =
     useSendPushNotificationMutation();
   const navigation = useNavigation<StackNavigation>();
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Başlık zorunludur'),
     description: Yup.string().required('Açıklama zorunludur'),
-    role_id: Yup.array(),
-    store_id: Yup.array().when('role_id', {
-      is: (role_id: number[]) => role_id.length === 0,
-      then: (schema: any) => schema.min(1, 'Mağaza veya Rol seçimi zorunludur'),
+    roleIds: Yup.array(),
+    userIds: Yup.array().when(['roleIds', 'storeIds'], {
+      is: (roleIds: number[], storeIds: number[]) =>
+        roleIds.length === 0 && storeIds.length === 0,
+      then: (schema: any) =>
+        schema.min(1, 'Yukarıdaki seçeneklerden en az birini seçiniz'),
       otherwise: (schema: any) => schema.notRequired(),
     }),
   });
   return (
     <Formik
       initialValues={{
-        role_id: [],
+        roleIds: [],
         title: '',
         description: '',
-        store_id: [],
+        storeIds: [],
+        userIds: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
-        const storeTopics = _.at(_.keyBy(stores, 'id'), values.store_id).map(
-          (store: Store) => store.name,
-        );
-
-        const roleTopics = _.at(_.keyBy(userRole, 'id'), values.role_id).map(
-          (role: UserRole) => role.room,
-        );
-        const topics = _.union(storeTopics, roleTopics);
-
         triggerSendPushNotification({
           title: values.title,
           description: values.description,
           sender_id: userId,
-          topics,
+          roleIds: values.roleIds,
+          storeIds: values.storeIds,
+          userIds: values.userIds,
         })
           .unwrap()
-          .then(() => {
+          .then(res => {
+            console.log(res);
             Toast.show({
               type: 'success',
               text1: 'Başarılı',
@@ -65,7 +63,7 @@ export default function CreateNotification() {
               position: 'bottom',
               bottomOffset: 75,
             });
-            navigation.goBack();
+            //navigation.goBack();
           })
           .catch(() => {
             Toast.show({
@@ -95,9 +93,9 @@ export default function CreateNotification() {
                 value: role.id,
               })) || []
             }
-            selectedValue={values.role_id}
+            selectedValue={values.roleIds}
             onValueChange={(value: any) => {
-              setFieldValue('role_id', value);
+              setFieldValue('roleIds', value);
             }}
             primaryColor={COLORS.primary}
             dropdownIcon={<></>}
@@ -110,8 +108,8 @@ export default function CreateNotification() {
             }}
             isMultiple
           />
-          {errors.role_id && touched.role_id && (
-            <Text style={styles.errorText}>{errors.role_id}</Text>
+          {errors.roleIds && touched.roleIds && (
+            <Text style={styles.errorText}>{errors.roleIds}</Text>
           )}
           <Dropdown
             placeholder="Hangi Mağazaya Bildirim Gönderilecek?"
@@ -121,9 +119,9 @@ export default function CreateNotification() {
                 value: store.id,
               })) || []
             }
-            selectedValue={values.store_id}
+            selectedValue={values.storeIds}
             onValueChange={(value: any) => {
-              setFieldValue('store_id', value);
+              setFieldValue('storeIds', value);
             }}
             primaryColor={COLORS.primary}
             dropdownIcon={<></>}
@@ -136,8 +134,41 @@ export default function CreateNotification() {
             }}
             isMultiple
           />
-          {errors.store_id && touched.store_id && (
-            <Text style={styles.errorText}>{errors.store_id}</Text>
+          {errors.storeIds && touched.storeIds && (
+            <Text style={styles.errorText}>{errors.storeIds}</Text>
+          )}
+          <Dropdown
+            placeholder="Hangi Kullanıcılara Bildirim Gönderilecek?"
+            options={
+              users?.map(user => ({
+                label: user.username,
+                value: user.id,
+              })) || []
+            }
+            selectedValue={values.userIds}
+            onValueChange={(value: any) => {
+              setFieldValue('userIds', value);
+            }}
+            primaryColor={COLORS.primary}
+            dropdownIcon={<></>}
+            dropdownStyle={styles.dropDownStyle}
+            placeholderStyle={{color: COLORS.black}}
+            listControls={{
+              emptyListMessage: 'Kullanıcı Bulunamadı',
+              selectAllText: 'Hepsini Seç',
+              unselectAllText: 'Hepsini Kaldır',
+            }}
+            isMultiple
+            isSearchable
+            searchControls={{
+              textInputProps: {
+                placeholder: 'Ara',
+                placeholderTextColor: COLORS.black,
+              },
+            }}
+          />
+          {errors.userIds && touched.userIds && (
+            <Text style={styles.errorText}>{errors.userIds}</Text>
           )}
           <TextInput
             style={styles.textInput}

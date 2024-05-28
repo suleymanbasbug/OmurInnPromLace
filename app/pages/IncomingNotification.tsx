@@ -2,7 +2,7 @@ import {COLORS} from '@app/assets/values/colors';
 import {
   Notification,
   useDeleteNotificationMutation,
-  useGetNotificationsByUserRoleQuery,
+  useGetNotificationsByUserQuery,
 } from '@app/services/notification';
 import React, {useEffect} from 'react';
 import {
@@ -20,18 +20,15 @@ import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
-import {useSelector} from 'react-redux';
-import {RootState} from '@app/store';
 
 export default function IncomingNotification() {
-  const roleId = useSelector((state: RootState) => state.user.role_id);
-
-  const {data} = useGetNotificationsByUserRoleQuery(roleId);
+  const {data} = useGetNotificationsByUserQuery();
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setFilteredData(data);
     }
   }, [data]);
@@ -91,7 +88,7 @@ export default function IncomingNotification() {
         </Text>
         <Text style={styles.title}>
           Gönderen Kullanıcı :{' '}
-          <Text style={styles.description}>{item.sender.username}</Text>
+          <Text style={styles.description}>{item?.sender?.username || ''}</Text>
         </Text>
       </View>
     );

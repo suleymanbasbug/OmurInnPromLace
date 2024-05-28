@@ -1,6 +1,5 @@
 import {COLORS} from '@app/assets/values/colors';
 import {
-  NotificationBySender,
   useDeleteNotificationMutation,
   useGetNotificationsBySenderQuery,
 } from '@app/services/notification';
@@ -20,19 +19,46 @@ import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
-
+import _ from 'lodash';
+import {User} from '@app/services/user';
+export type TransformedData = {
+  stores: any[];
+  users: any[];
+  user_roles: any[];
+  id: number;
+  title: string;
+  description: string;
+  user_role_id: number;
+  sender_id: number;
+  created_at: string;
+  updated_at: string;
+  sender: User;
+};
 export default function SendNotification() {
-  const {data} = useGetNotificationsBySenderQuery();
+  const {data: notifications} = useGetNotificationsBySenderQuery();
   const [triggerDelete] = useDeleteNotificationMutation();
-  const [filteredData, setFilteredData] = React.useState<
-    NotificationBySender[]
-  >([]);
+  const [filteredData, setFilteredData] = React.useState<TransformedData[]>([]);
+  const [data, setData] = React.useState<TransformedData[]>([]);
 
   useEffect(() => {
-    if (data) {
-      setFilteredData(data);
+    if (notifications) {
+      const transformedData = _.map(notifications, item => {
+        const {topics, ...rest} = item;
+        const stores = _.flatMap(topics, 'stores');
+        const users = _.flatMap(topics, 'users');
+        const user_roles = _.flatMap(topics, 'roles');
+        return {
+          ...rest,
+          stores,
+          users,
+          user_roles,
+        };
+      });
+      setData(transformedData);
+
+      setFilteredData(transformedData);
     }
-  }, [data]);
+  }, [notifications]);
 
   const handleDelete = (id: number) => {
     triggerDelete(id)
@@ -62,8 +88,7 @@ export default function SendNotification() {
       const filtered = data?.filter(item => {
         return (
           item.title.toLowerCase().includes(value.toLowerCase()) ||
-          item.description.toLowerCase().includes(value.toLowerCase()) ||
-          item.sender.username.toLowerCase().includes(value.toLowerCase())
+          item.description.toLowerCase().includes(value.toLowerCase())
         );
       });
       setFilteredData(filtered || []);
@@ -72,7 +97,7 @@ export default function SendNotification() {
     }
   };
 
-  const renderItem = ({item}: {item: NotificationBySender}) => {
+  const renderItem = ({item}: {item: TransformedData}) => {
     return (
       <View style={styles.renderItemContainer}>
         <Text style={styles.title}>
@@ -103,15 +128,19 @@ export default function SendNotification() {
             </Text>
           </Text>
         )}
-        <Text style={styles.title}>
-          Gönderen Kullanıcı :{' '}
-          <Text style={styles.description}>{item.sender.username}</Text>
-        </Text>
+        {item.users.length > 0 && (
+          <Text style={styles.title}>
+            Gönderilen Kullanıcılar :{' '}
+            <Text style={styles.description}>
+              {item.users.map(user => user.username).join(', ')}
+            </Text>
+          </Text>
+        )}
       </View>
     );
   };
 
-  const renderHiddenItem = ({item}: {item: NotificationBySender}) => {
+  const renderHiddenItem = ({item}: {item: TransformedData}) => {
     return (
       <View style={styles.renderHiddenItemContainer}>
         <Pressable

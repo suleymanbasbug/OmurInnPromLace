@@ -2,8 +2,6 @@ import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {User} from './user';
 import {API_URL} from '@env';
-import {Store} from './store';
-import {UserRole} from './user-role';
 export const notificationAPI = createApi({
   reducerPath: 'notificationAPI',
   baseQuery: fetchBaseQuery({
@@ -64,7 +62,9 @@ export type SendPushNotificationApiArg = {
   title: string;
   description: string;
   sender_id: number;
-  topics: string[];
+  userIds: number[];
+  roleIds: number[];
+  storeIds: number[];
 };
 
 export type Notification = {
@@ -79,8 +79,7 @@ export type Notification = {
 };
 
 export type NotificationBySender = {
-  stores: Store[];
-  user_roles: UserRole[];
+  topics: PivotNotificationTopic[];
 } & Notification;
 
 export type GetNotificationBySenderResponse = NotificationBySender[];
@@ -89,6 +88,51 @@ export type NotificationResponse = Notification[];
 
 export type SubcribeToTopicsApiArg = {
   token: string;
+};
+
+export type PivotNotificationTopic = {
+  id: number;
+  pivot: {
+    notification_id: number;
+    topic_id: number;
+  };
+  roles: PivotRoleTopic[];
+  stores: PivotStoreTopic[];
+  users: PivotUserTopic[];
+};
+
+export type PivotRoleTopic = {
+  id: number;
+  name: string;
+  pivot: {
+    role_id: number;
+    topic_id: number;
+  };
+  room: string;
+};
+
+export type PivotUserTopic = {
+  id: number;
+  pivot: {
+    user_id: number;
+    topic_id: number;
+  };
+  role_id: number;
+  store_id: number;
+  username: string;
+};
+
+export type PivotStoreTopic = {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    store_id: number;
+    topic_id: number;
+  };
 };
 
 export const {

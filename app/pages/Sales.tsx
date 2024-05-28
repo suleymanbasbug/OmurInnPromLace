@@ -36,8 +36,7 @@ const Sales: React.FC<Props> = ({route}) => {
   const [salesProduct, setSalesProduct] = React.useState<SalesProduct>();
   const [selectedProduct, setSelectedProduct] = React.useState<ProductDto>();
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
-  const [triggerSendPushNotification, {isLoading}] =
-    useSendPushNotificationMutation();
+  const [triggerSendPushNotification] = useSendPushNotificationMutation();
   const confettiRef = React.useRef<LottieView>(null);
 
   const triggerConfetti = () => {
@@ -51,7 +50,9 @@ const Sales: React.FC<Props> = ({route}) => {
       title: 'Yeni Satış',
       description: `${user.store?.name} Mağazasındaki ${salesProduct?.code} kodlu ürünü ${user.username} isimli kullanıcı sattı. Beden: ${salesProduct?.size}, Renk: ${salesProduct?.color}`,
       sender_id: user?.id,
-      topics: ['admin'],
+      roleIds: [1],
+      storeIds: [],
+      userIds: [],
     })
       .unwrap()
       .finally(() => {
