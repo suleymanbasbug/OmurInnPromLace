@@ -40,7 +40,7 @@ const Sales: React.FC<Props> = ({route}) => {
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
   const [triggerSendPushNotification] = useSendPushNotificationMutation();
   const confettiRef = React.useRef<LottieView>(null);
-  const [animateToNumber, setAnimateToNumber] = React.useState(1);
+  const [animateToNumber, setAnimateToNumber] = React.useState(user.points);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const triggerConfetti = () => {
     if (confettiRef.current) {
@@ -78,7 +78,7 @@ const Sales: React.FC<Props> = ({route}) => {
       }, 500);
       setTimeout(() => {
         handleBack();
-      }, 2000);
+      }, 2500);
     }
   }, [isSuccess]);
 
@@ -287,14 +287,11 @@ const Sales: React.FC<Props> = ({route}) => {
         </>
       ) : (
         <>
+          <Text style={styles.pointFont}>Puanınız : </Text>
           <AnimatedNumbers
             includeComma
             animateToNumber={animateToNumber}
-            fontStyle={{
-              fontSize: 50,
-              fontWeight: 'bold',
-              color: COLORS.primary,
-            }}
+            fontStyle={styles.pointFont}
           />
         </>
       )}
@@ -379,5 +376,11 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: COLORS.primary,
     borderRadius: 8,
+  },
+
+  pointFont: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    color: COLORS.primary,
   },
 });

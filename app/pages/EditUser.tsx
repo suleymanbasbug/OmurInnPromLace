@@ -18,6 +18,7 @@ interface Props
 
 const EditUser: React.FC<Props> = ({route}) => {
   const {user} = route.params;
+  console.log(user);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
   const navigation = useNavigation<StackNavigation>();
@@ -30,6 +31,10 @@ const EditUser: React.FC<Props> = ({route}) => {
       'Şifreler uyuşmuyor',
     ),
     role_id: Yup.number().required('Kullanıcı rolü zorunludur'),
+    store_id: Yup.number().required('Mağaza zorunludur'),
+    points: Yup.number()
+      .typeError('Sayısal bir değer giriniz')
+      .required('Puan zorunludur'),
   });
   const [updateUser, {isLoading}] = useUpdateUserMutation();
 
@@ -42,6 +47,7 @@ const EditUser: React.FC<Props> = ({route}) => {
         password_confirmation: '',
         role_id: user.role_id,
         store_id: user.store_id,
+        points: user.points,
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -52,6 +58,7 @@ const EditUser: React.FC<Props> = ({route}) => {
           password_confirmation: values.password_confirmation,
           role_id: values.role_id || 2,
           store_id: values.store_id,
+          points: values.points,
         })
           .unwrap()
           .then(() => {
@@ -118,6 +125,18 @@ const EditUser: React.FC<Props> = ({route}) => {
           />
           {errors.password_confirmation && touched.password_confirmation && (
             <Text style={styles.errorText}>{errors.password_confirmation}</Text>
+          )}
+          <TextInput
+            style={styles.textInput}
+            placeholder="Puan"
+            value={values.points.toString()}
+            onChangeText={handleChange('points')}
+            onBlur={handleBlur('points')}
+            placeholderTextColor={COLORS.black}
+            keyboardType="numeric"
+          />
+          {errors.points && touched.points && (
+            <Text style={styles.errorText}>{errors.points}</Text>
           )}
           <Dropdown
             placeholder="Kullanıcı Rolü Seçiniz"

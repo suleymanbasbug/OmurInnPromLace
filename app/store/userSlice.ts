@@ -28,6 +28,7 @@ export const initialUserState: User = {
     city: '',
   },
   topics: [],
+  points: 0,
 };
 
 export const initialState: LoginApiResponse & User = {

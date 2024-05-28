@@ -59,7 +59,7 @@ export type RegisterApiArg = {
   store_id: number | null;
 };
 
-export type UpdateUserApiArg = RegisterApiArg & {id: number};
+export type UpdateUserApiArg = RegisterApiArg & {id: number; points: number};
 
 export type GetAllUserResponse = User[];
 
@@ -77,6 +77,7 @@ export type User = {
   role: UserRole;
   store: Store | null;
   topics: Topic[];
+  points: number;
 };
 
 export const {
