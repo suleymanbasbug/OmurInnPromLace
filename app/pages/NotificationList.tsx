@@ -30,7 +30,6 @@ export default function NotificationList() {
 
   useEffect(() => {
     if (deletedNotification && data) {
-      console.log(data, ' => data');
       if (deletedNotification?.deleted_notification_ids) {
         const newData = _.cloneDeep(data);
         const result = _.reject(newData, item =>

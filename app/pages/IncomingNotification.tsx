@@ -28,7 +28,6 @@ export default function IncomingNotification() {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setFilteredData(data);
     }
   }, [data]);

@@ -54,8 +54,7 @@ export default function CreateNotification() {
           userIds: values.userIds,
         })
           .unwrap()
-          .then(res => {
-            console.log(res);
+          .then(() => {
             Toast.show({
               type: 'success',
               text1: 'Başarılı',
@@ -63,7 +62,7 @@ export default function CreateNotification() {
               position: 'bottom',
               bottomOffset: 75,
             });
-            //navigation.goBack();
+            navigation.goBack();
           })
           .catch(() => {
             Toast.show({

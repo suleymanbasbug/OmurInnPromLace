@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {COLORS} from '@app/assets/values/colors';
 import {useGetAllSizeQuery} from '@app/services/size';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -17,6 +18,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
 import {useSendPushNotificationMutation} from '@app/services/notification';
 import {IMAGE_URL} from '@env';
+import AnimatedNumbers from 'react-native-animated-numbers';
 
 interface Props extends NativeStackScreenProps<RootStackParamList, 'Sales'> {}
 export type SalesProduct = {
@@ -38,7 +40,8 @@ const Sales: React.FC<Props> = ({route}) => {
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
   const [triggerSendPushNotification] = useSendPushNotificationMutation();
   const confettiRef = React.useRef<LottieView>(null);
-
+  const [animateToNumber, setAnimateToNumber] = React.useState(1);
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const triggerConfetti = () => {
     if (confettiRef.current) {
       confettiRef.current.play(0);
@@ -67,6 +70,17 @@ const Sales: React.FC<Props> = ({route}) => {
       navigation.navigate('Home');
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => {
+        setAnimateToNumber(animateToNumber + 1);
+      }, 500);
+      setTimeout(() => {
+        handleBack();
+      }, 2000);
+    }
+  }, [isSuccess]);
 
   const handleSearch = (value: string) => {
     if (value) {
@@ -158,116 +172,132 @@ const Sales: React.FC<Props> = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <ProgressSteps
-        progressBarColor={COLORS.primary}
-        activeStepIconBorderColor={COLORS.primary}
-        labelColor={COLORS.primary}
-        activeLabelColor={COLORS.primary}
-        completedProgressBarColor={COLORS.primary}
-        completedStepIconColor={COLORS.primary}
-        activeStep={product ? 1 : 0}>
-        <ProgressStep
-          nextBtnStyle={styles.button}
-          nextBtnTextStyle={styles.buttonText}
-          nextBtnText="İleri"
-          label="Ürün Seçimi"
-          nextBtnDisabled={!selectedProduct}>
-          <View style={styles.container}>
-            {data && data?.length > 0 ? (
-              <Searchbar value="" onSubmit={handleSearch} />
-            ) : null}
-            <FlatList
-              data={filteredData}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-              ItemSeparatorComponent={Seperator}
-            />
-          </View>
-        </ProgressStep>
-        <ProgressStep
-          label="Renk Seçimi"
-          previousBtnStyle={styles.button}
-          previousBtnTextStyle={styles.buttonText}
-          nextBtnStyle={styles.button}
-          nextBtnTextStyle={styles.buttonText}
-          nextBtnText="İleri"
-          previousBtnText="Geri"
-          nextBtnDisabled={!salesProduct?.color}>
-          <View style={{alignItems: 'center', paddingHorizontal: 16}}>
-            <Dropdown
-              placeholder="Renk Seçiniz"
-              options={
-                selectedProduct?.colors.map(color => ({
-                  label: color,
-                  value: color,
-                })) || []
-              }
-              selectedValue={salesProduct?.color}
-              onValueChange={(itemValue: any) => {
-                setSalesProduct({
-                  ...salesProduct,
-                  color: itemValue,
-                });
-              }}
-              primaryColor={COLORS.primary}
-              dropdownIcon={<></>}
-              dropdownStyle={styles.dropDownStyle}
-              placeholderStyle={{color: COLORS.black}}
-              listControls={{
-                emptyListMessage: 'Renk Bulunamadı',
-                selectAllText: 'Hepsini Seç',
-                unselectAllText: 'Hepsini Kaldır',
-              }}
-            />
-          </View>
-        </ProgressStep>
-        <ProgressStep
-          label="Beden Seçimi"
-          previousBtnStyle={styles.button}
-          previousBtnTextStyle={styles.buttonText}
-          nextBtnStyle={styles.button}
-          nextBtnTextStyle={styles.buttonText}
-          previousBtnText="Geri"
-          finishBtnText="Tamamla"
-          nextBtnDisabled={!salesProduct?.size}
-          onSubmit={handleSubmit}>
-          <View style={{alignItems: 'center', paddingHorizontal: 16}}>
-            <Dropdown
-              placeholder="Beden Seçiniz"
-              options={_.at(
-                _.keyBy(sizes, 'id'),
-                selectedProduct?.sizes || [],
-              ).map(size => ({
-                label: size.size,
-                value: size.size,
-              }))}
-              selectedValue={salesProduct?.size}
-              onValueChange={(itemValue: any) => {
-                setSalesProduct({
-                  ...salesProduct,
-                  size: itemValue,
-                });
-              }}
-              primaryColor={COLORS.primary}
-              dropdownIcon={<></>}
-              dropdownStyle={styles.dropDownStyle}
-              placeholderStyle={{color: COLORS.black}}
-              listControls={{
-                emptyListMessage: 'Renk Bulunamadı',
-                selectAllText: 'Hepsini Seç',
-                unselectAllText: 'Hepsini Kaldır',
-              }}
-            />
-          </View>
-        </ProgressStep>
-      </ProgressSteps>
-      <LottieView
-        source={require('@app/assets/test.json')}
-        loop={false}
-        style={styles.lottie}
-        ref={confettiRef}
-        onAnimationFinish={handleBack}
-      />
+      {!isSuccess ? (
+        <>
+          <ProgressSteps
+            progressBarColor={COLORS.primary}
+            activeStepIconBorderColor={COLORS.primary}
+            labelColor={COLORS.primary}
+            activeLabelColor={COLORS.primary}
+            completedProgressBarColor={COLORS.primary}
+            completedStepIconColor={COLORS.primary}
+            activeStep={product ? 1 : 0}>
+            <ProgressStep
+              nextBtnStyle={styles.button}
+              nextBtnTextStyle={styles.buttonText}
+              nextBtnText="İleri"
+              label="Ürün Seçimi"
+              nextBtnDisabled={!selectedProduct}>
+              <View style={styles.container}>
+                {data && data?.length > 0 ? (
+                  <Searchbar value="" onSubmit={handleSearch} />
+                ) : null}
+                <FlatList
+                  data={filteredData}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                  ItemSeparatorComponent={Seperator}
+                />
+              </View>
+            </ProgressStep>
+            <ProgressStep
+              label="Renk Seçimi"
+              previousBtnStyle={styles.button}
+              previousBtnTextStyle={styles.buttonText}
+              nextBtnStyle={styles.button}
+              nextBtnTextStyle={styles.buttonText}
+              nextBtnText="İleri"
+              previousBtnText="Geri"
+              nextBtnDisabled={!salesProduct?.color}>
+              <View style={{alignItems: 'center', paddingHorizontal: 16}}>
+                <Dropdown
+                  placeholder="Renk Seçiniz"
+                  options={
+                    selectedProduct?.colors.map(color => ({
+                      label: color,
+                      value: color,
+                    })) || []
+                  }
+                  selectedValue={salesProduct?.color}
+                  onValueChange={(itemValue: any) => {
+                    setSalesProduct({
+                      ...salesProduct,
+                      color: itemValue,
+                    });
+                  }}
+                  primaryColor={COLORS.primary}
+                  dropdownIcon={<></>}
+                  dropdownStyle={styles.dropDownStyle}
+                  placeholderStyle={{color: COLORS.black}}
+                  listControls={{
+                    emptyListMessage: 'Renk Bulunamadı',
+                    selectAllText: 'Hepsini Seç',
+                    unselectAllText: 'Hepsini Kaldır',
+                  }}
+                />
+              </View>
+            </ProgressStep>
+            <ProgressStep
+              label="Beden Seçimi"
+              previousBtnStyle={styles.button}
+              previousBtnTextStyle={styles.buttonText}
+              nextBtnStyle={styles.button}
+              nextBtnTextStyle={styles.buttonText}
+              previousBtnText="Geri"
+              finishBtnText="Tamamla"
+              nextBtnDisabled={!salesProduct?.size}
+              onSubmit={handleSubmit}>
+              <View style={{alignItems: 'center', paddingHorizontal: 16}}>
+                <Dropdown
+                  placeholder="Beden Seçiniz"
+                  options={_.at(
+                    _.keyBy(sizes, 'id'),
+                    selectedProduct?.sizes || [],
+                  ).map(size => ({
+                    label: size.size,
+                    value: size.size,
+                  }))}
+                  selectedValue={salesProduct?.size}
+                  onValueChange={(itemValue: any) => {
+                    setSalesProduct({
+                      ...salesProduct,
+                      size: itemValue,
+                    });
+                  }}
+                  primaryColor={COLORS.primary}
+                  dropdownIcon={<></>}
+                  dropdownStyle={styles.dropDownStyle}
+                  placeholderStyle={{color: COLORS.black}}
+                  listControls={{
+                    emptyListMessage: 'Renk Bulunamadı',
+                    selectAllText: 'Hepsini Seç',
+                    unselectAllText: 'Hepsini Kaldır',
+                  }}
+                />
+              </View>
+            </ProgressStep>
+          </ProgressSteps>
+          <LottieView
+            source={require('@app/assets/test.json')}
+            loop={false}
+            style={styles.lottie}
+            ref={confettiRef}
+            onAnimationFinish={() => setIsSuccess(true)}
+          />
+        </>
+      ) : (
+        <>
+          <AnimatedNumbers
+            includeComma
+            animateToNumber={animateToNumber}
+            fontStyle={{
+              fontSize: 50,
+              fontWeight: 'bold',
+              color: COLORS.primary,
+            }}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -278,6 +308,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: COLORS.primary,
