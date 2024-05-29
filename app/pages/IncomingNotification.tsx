@@ -20,12 +20,14 @@ import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
+import {StackNavigation} from 'App';
+import {useNavigation} from '@react-navigation/native';
 
 export default function IncomingNotification() {
   const {data} = useGetNotificationsByUserQuery();
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<Notification[]>([]);
-
+  const navigation = useNavigation<StackNavigation>();
   useEffect(() => {
     if (data) {
       setFilteredData(data);
@@ -72,7 +74,11 @@ export default function IncomingNotification() {
 
   const renderItem = ({item}: {item: Notification}) => {
     return (
-      <View style={styles.renderItemContainer}>
+      <Pressable
+        style={styles.renderItemContainer}
+        onPress={() => {
+          navigation.navigate('NotificationDetail', {id: item.id});
+        }}>
         <Text style={styles.title}>
           Başlık : <Text style={styles.description}>{item.title}</Text>
         </Text>
@@ -89,7 +95,7 @@ export default function IncomingNotification() {
           Gönderen Kullanıcı :{' '}
           <Text style={styles.description}>{item?.sender?.username || ''}</Text>
         </Text>
-      </View>
+      </Pressable>
     );
   };
 
