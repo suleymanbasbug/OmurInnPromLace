@@ -6,4 +6,6 @@ export const COLORS = {
   edit: '#ffa500',
   black: '#000000',
   buttonColor: '#CD0142',
+  disabled: '#FAD4D8',
+  selected: '#C82333',
 };

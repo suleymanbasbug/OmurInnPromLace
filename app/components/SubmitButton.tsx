@@ -6,13 +6,21 @@ export default function SubmitButton({
   isLoading = false,
   onPress,
   title = 'KAYDET',
+  disabled = false,
 }: {
   isLoading?: boolean;
   onPress?: () => void;
   title?: string;
+  disabled?: boolean;
 }) {
   return (
-    <Pressable style={styles.button} onPress={onPress} disabled={isLoading}>
+    <Pressable
+      style={[
+        styles.button,
+        {backgroundColor: disabled ? COLORS.disabled : COLORS.primary},
+      ]}
+      onPress={onPress}
+      disabled={isLoading || disabled}>
       <Text style={styles.text}>{title}</Text>
       {isLoading && (
         <ActivityIndicator
@@ -28,7 +36,6 @@ export default function SubmitButton({
 const styles = StyleSheet.create({
   button: {
     width: '100%',
-    backgroundColor: COLORS.buttonColor,
     padding: 12,
     borderRadius: 8,
     marginVertical: 12,

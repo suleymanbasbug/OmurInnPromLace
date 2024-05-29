@@ -2,6 +2,7 @@ import {RootState} from '@app/store';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {User} from './user';
 import {API_URL} from '@env';
+import {SalesProduct} from '@app/pages/Sales';
 export const notificationAPI = createApi({
   reducerPath: 'notificationAPI',
   baseQuery: fetchBaseQuery({
@@ -31,6 +32,17 @@ export const notificationAPI = createApi({
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
+      }),
+      invalidatesTags: ['Notification'],
+    }),
+    sendPushNotificationForSale: builder.mutation<
+      void,
+      SendPushNotificationForSaleApiArg
+    >({
+      query: body => ({
+        url: '/notification/send/sale',
+        method: 'POST',
+        body,
       }),
       invalidatesTags: ['Notification'],
     }),
@@ -74,6 +86,14 @@ export type SendPushNotificationApiArg = {
   storeIds: number[];
   images?: [];
   productIds?: [];
+};
+
+export type SendPushNotificationForSaleApiArg = {
+  title: string;
+  description: string;
+  sender_id: number;
+  roleId: number;
+  product: SalesProduct;
 };
 
 export type Notification = {
@@ -157,4 +177,5 @@ export const {
   useGetNotificationsBySenderQuery,
   useGetNotificationsByUserQuery,
   useGetNotificationByIdQuery,
+  useSendPushNotificationForSaleMutation,
 } = notificationAPI;

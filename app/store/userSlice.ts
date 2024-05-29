@@ -50,9 +50,12 @@ export const userSlice = createSlice({
 
       return {...state, ...newUserState};
     },
+    incrementPoints: (state, action: PayloadAction<number>) => {
+      state.points += action.payload;
+    },
   },
 });
 
-export const {setToken, setUser} = userSlice.actions;
+export const {setToken, setUser, incrementPoints} = userSlice.actions;
 
 export default userSlice.reducer;

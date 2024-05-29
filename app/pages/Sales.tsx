@@ -4,20 +4,18 @@ import {useGetAllSizeQuery} from '@app/services/size';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList, StackNavigation} from 'App';
 import React, {useEffect} from 'react';
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import _ from 'lodash';
 import LottieView from 'lottie-react-native';
 
 import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
-import {ProductDto, useGetAllProductsQuery} from '@app/services/product';
+import {ProductDto} from '@app/services/product';
 import {useNavigation} from '@react-navigation/native';
-import Searchbar from '@app/components/Searchbar';
-import Seperator from '@app/components/Seperator';
+
 import {useSelector} from 'react-redux';
-import {RootState} from '@app/store';
-import {useSendPushNotificationMutation} from '@app/services/notification';
-import {IMAGE_URL} from '@env';
+import store, {RootState, resetRtkState} from '@app/store';
+import {useSendPushNotificationForSaleMutation} from '@app/services/notification';
 import AnimatedNumbers from 'react-native-animated-numbers';
 
 interface Props extends NativeStackScreenProps<RootStackParamList, 'Sales'> {}
@@ -33,12 +31,17 @@ const Sales: React.FC<Props> = ({route}) => {
 
   const {product} = route.params;
   const {data: sizes} = useGetAllSizeQuery();
-  const {data} = useGetAllProductsQuery();
 
-  const [salesProduct, setSalesProduct] = React.useState<SalesProduct>();
+  const [salesProduct, setSalesProduct] = React.useState<SalesProduct>({
+    id: 0,
+    code: '',
+    color: '',
+    size: '',
+  });
   const [selectedProduct, setSelectedProduct] = React.useState<ProductDto>();
-  const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
-  const [triggerSendPushNotification] = useSendPushNotificationMutation();
+
+  const [triggerSendPushNotification] =
+    useSendPushNotificationForSaleMutation();
   const confettiRef = React.useRef<LottieView>(null);
   const [animateToNumber, setAnimateToNumber] = React.useState(user.points);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -53,13 +56,20 @@ const Sales: React.FC<Props> = ({route}) => {
       title: 'Yeni Satış',
       description: `${user.store?.name} Mağazasındaki ${salesProduct?.code} kodlu ürünü ${user.username} isimli kullanıcı sattı. Beden: ${salesProduct?.size}, Renk: ${salesProduct?.color}`,
       sender_id: user?.id,
-      roleIds: [1],
-      storeIds: [],
-      userIds: [],
+      roleId: 1,
+      product: salesProduct,
     })
       .unwrap()
+      .then(res => {
+        console.log(res, ' =>res');
+      })
       .finally(() => {
         triggerConfetti();
+        store.dispatch({
+          type: 'user/incrementPoints',
+          payload: 1,
+        });
+        resetRtkState();
       });
   };
 
@@ -82,23 +92,6 @@ const Sales: React.FC<Props> = ({route}) => {
     }
   }, [isSuccess]);
 
-  const handleSearch = (value: string) => {
-    if (value) {
-      const filtered = data?.filter(item => {
-        return item.code.toLowerCase().includes(value.toLowerCase());
-      });
-      setFilteredData(filtered || []);
-    } else {
-      setFilteredData(data || []);
-    }
-  };
-
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
-
   useEffect(() => {
     if (product) {
       setSelectedProduct(product);
@@ -118,58 +111,6 @@ const Sales: React.FC<Props> = ({route}) => {
     }
   }, [selectedProduct]);
 
-  const renderItem = ({item}: {item: ProductDto}) => {
-    return (
-      <Pressable
-        style={[
-          styles.renderItemContainer,
-          {
-            backgroundColor:
-              selectedProduct?.id === item.id ? COLORS.primary : 'white',
-          },
-        ]}
-        onPress={() => {
-          setSelectedProduct(item);
-        }}>
-        <Image
-          source={{
-            uri: `${IMAGE_URL}${item.image}`,
-          }}
-          style={styles.image}
-        />
-        <View style={styles.infoWrapper}>
-          <Text style={styles.description}>
-            <Text style={styles.title}>Ürün Kodu : </Text> {item.code}
-          </Text>
-          <Text style={styles.description}>
-            <Text style={styles.title} numberOfLines={3}>
-              Renkler :
-            </Text>
-          </Text>
-          <View style={styles.colorsWrapper}>
-            {item.colors.map((color, index) => (
-              <View key={index} style={styles.badge}>
-                <Text style={styles.badgeText}>{color}</Text>
-              </View>
-            ))}
-          </View>
-          <Text style={styles.description}>
-            <Text style={styles.title}>Bedenler : </Text>{' '}
-          </Text>
-          <View style={styles.colorsWrapper}>
-            {item.sizes.map((size, index) => (
-              <View key={index} style={styles.badge}>
-                <Text style={styles.badgeText}>
-                  {sizes?.find(s => s.id === Number(size))?.size}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
-      </Pressable>
-    );
-  };
-
   return (
     <View style={styles.container}>
       {!isSuccess ? (
@@ -180,34 +121,12 @@ const Sales: React.FC<Props> = ({route}) => {
             labelColor={COLORS.primary}
             activeLabelColor={COLORS.primary}
             completedProgressBarColor={COLORS.primary}
-            completedStepIconColor={COLORS.primary}
-            activeStep={product ? 1 : 0}>
-            <ProgressStep
-              nextBtnStyle={styles.button}
-              nextBtnTextStyle={styles.buttonText}
-              nextBtnText="İleri"
-              label="Ürün Seçimi"
-              nextBtnDisabled={!selectedProduct}>
-              <View style={styles.container}>
-                {data && data?.length > 0 ? (
-                  <Searchbar value="" onSubmit={handleSearch} />
-                ) : null}
-                <FlatList
-                  data={filteredData}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderItem}
-                  ItemSeparatorComponent={Seperator}
-                />
-              </View>
-            </ProgressStep>
+            completedStepIconColor={COLORS.primary}>
             <ProgressStep
               label="Renk Seçimi"
-              previousBtnStyle={styles.button}
-              previousBtnTextStyle={styles.buttonText}
               nextBtnStyle={styles.button}
               nextBtnTextStyle={styles.buttonText}
               nextBtnText="İleri"
-              previousBtnText="Geri"
               nextBtnDisabled={!salesProduct?.color}>
               <View style={{alignItems: 'center', paddingHorizontal: 16}}>
                 <Dropdown
@@ -286,14 +205,14 @@ const Sales: React.FC<Props> = ({route}) => {
           />
         </>
       ) : (
-        <>
+        <View style={styles.pointContainer}>
           <Text style={styles.pointFont}>Puanınız : </Text>
           <AnimatedNumbers
             includeComma
             animateToNumber={animateToNumber}
             fontStyle={styles.pointFont}
           />
-        </>
+        </View>
       )}
     </View>
   );
@@ -306,8 +225,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     display: 'flex',
-    alignItems: 'center',
+  },
+  pointContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
     backgroundColor: COLORS.primary,

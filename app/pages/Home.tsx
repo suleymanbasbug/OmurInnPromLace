@@ -16,6 +16,9 @@ export default function Home() {
   const {data: sizes} = useGetAllSizeQuery();
   const navigation = useNavigation<StackNavigation>();
   const [filteredData, setFilteredData] = React.useState<ProductDto[]>([]);
+  const [selectedItem, setSelectedItem] = React.useState<ProductDto | null>(
+    null,
+  );
 
   const handleSearch = (value: string) => {
     if (value) {
@@ -37,9 +40,15 @@ export default function Home() {
   const renderItem = ({item}: {item: ProductDto}) => {
     return (
       <Pressable
-        style={styles.renderItemContainer}
+        style={[
+          styles.renderItemContainer,
+          {
+            backgroundColor:
+              selectedItem?.id === item.id ? COLORS.selected : COLORS.white,
+          },
+        ]}
         onPress={() => {
-          navigation.navigate('Sales', {product: item});
+          setSelectedItem(item);
         }}>
         <Image
           source={{
@@ -98,7 +107,8 @@ export default function Home() {
       <View style={styles.actionButtonContainer}>
         <SubmitButton
           title="Satış Yaptım"
-          onPress={() => navigation.navigate('Sales', {product: null})}
+          onPress={() => navigation.navigate('Sales', {product: selectedItem})}
+          disabled={!selectedItem}
         />
       </View>
     </View>
