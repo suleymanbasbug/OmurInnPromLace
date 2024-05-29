@@ -1,7 +1,14 @@
 import {COLORS} from '@app/assets/values/colors';
 import SubmitButton from '@app/components/SubmitButton';
+import {useLogoutMutation} from '@app/services/auth';
 import {useChangePasswordMutation} from '@app/services/user';
-import {RootState} from '@app/store';
+import store, {RootState, resetRtkState} from '@app/store';
+import {
+  initialTokenState,
+  initialUserState,
+  setToken,
+  setUser,
+} from '@app/store/userSlice';
 import {Formik} from 'formik';
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
@@ -13,6 +20,7 @@ export default function Settings() {
   const user = useSelector((state: RootState) => state.user);
 
   const [triggerChangePassword, {isLoading}] = useChangePasswordMutation();
+  const [triggerLogout] = useLogoutMutation();
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -50,8 +58,13 @@ export default function Settings() {
                 position: 'bottom',
                 bottomOffset: 75,
               });
-              values.password = '';
-              values.password_confirmation = '';
+              triggerLogout()
+                .unwrap()
+                .then(() => {
+                  store.dispatch(setToken(initialTokenState));
+                  store.dispatch(setUser(initialUserState));
+                  resetRtkState();
+                });
             })
             .catch(err => {
               console.log(err);
