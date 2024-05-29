@@ -24,6 +24,9 @@ import SalesManagement from '@app/pages/SalesManagement';
 import UserSales from '@app/pages/UserSales';
 import StoreSales from '@app/pages/StoreSales';
 import SalesList from '@app/pages/SalesList';
+import FixedNotification from '@app/pages/FixedNotification';
+import CreateFixedNotification from '@app/pages/CreateFixedNotification';
+import EditFixedNotification from '@app/pages/EditFixedNotification';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AdminStack() {
@@ -134,7 +137,7 @@ export function AdminStack() {
           headerRight: () => (
             <AddHeaderItem
               onPress={() => {
-                navigation.navigate('CreateNotification');
+                navigation.navigate('CreateNotification', {});
               }}
             />
           ),
@@ -153,7 +156,7 @@ export function AdminStack() {
           headerRight: () => (
             <AddHeaderItem
               onPress={() => {
-                navigation.navigate('CreateNotification');
+                navigation.navigate('CreateNotification', {});
               }}
             />
           ),
@@ -173,7 +176,7 @@ export function AdminStack() {
           headerRight: () => (
             <AddHeaderItem
               onPress={() => {
-                navigation.navigate('CreateNotification');
+                navigation.navigate('CreateNotification', {});
               }}
             />
           ),
@@ -204,6 +207,50 @@ export function AdminStack() {
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.white,
           title: 'Bildirim Detayı',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="FixedNotification"
+        component={FixedNotification}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Sabit Bildirimler',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          headerRight: () => (
+            <AddHeaderItem
+              onPress={() => {
+                navigation.navigate('CreateFixedNotification');
+              }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CreateFixedNotification"
+        component={CreateFixedNotification}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Sabit Bildirimler Oluştur',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="EditFixedNotification"
+        component={EditFixedNotification}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Sabit Bildirimler Düzenle',
           headerStyle: {
             backgroundColor: COLORS.primary,
           },

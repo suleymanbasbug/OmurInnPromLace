@@ -5,14 +5,15 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Seperator from '@app/components/Seperator';
 import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from 'App';
 
 type NotificationListType = {
   title: string;
-  route: string;
+  route: 'SendNotification' | 'IncomingNotification' | 'FixedNotification';
 };
 
 export default function NotificationManagement() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
   const renderItem = ({item}: {item: NotificationListType}) => (
     <Pressable
       style={styles.listContainer}
@@ -31,6 +32,7 @@ export default function NotificationManagement() {
         data={[
           {title: 'Gönderilen Bildirimler', route: 'SendNotification'},
           {title: 'Gelen Bildirimler', route: 'IncomingNotification'},
+          {title: 'Sabit Bildirimler', route: 'FixedNotification'},
         ]}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}

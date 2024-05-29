@@ -16,6 +16,7 @@ import {Store} from '@app/services/store';
 import {User} from '@app/services/user';
 import {ProductDto} from '@app/services/product';
 import AppNavigatorUI from './app/routers';
+import {FixedNotificationType} from '@app/services/fixedNotification';
 
 export type RootStackParamList = {
   Admin: undefined;
@@ -24,7 +25,7 @@ export type RootStackParamList = {
   ProductManagement: undefined;
   CreateProduct: undefined;
   NotificationManagement: undefined;
-  CreateNotification: undefined;
+  CreateNotification: {title?: string; description?: string};
   StoreManagement: undefined;
   CreateStore: undefined;
   EditStore: {store: Store};
@@ -42,6 +43,9 @@ export type RootStackParamList = {
   StoreSales: undefined;
   UserSales: undefined;
   SalesList: {sales: any[]; title: string};
+  FixedNotification: undefined;
+  CreateFixedNotification: undefined;
+  EditFixedNotification: {fixedNotification: FixedNotificationType};
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

@@ -7,6 +7,7 @@ import {notificationAPI} from './notification';
 import {authAPI} from './auth';
 import {deletedNotificationAPI} from './deletedNotification';
 import {saleAPI} from './sale';
+import {fixedNotificationAPI} from './fixedNotification';
 export const apiList = [
   storeAPI,
   userRoleAPI,
@@ -17,4 +18,5 @@ export const apiList = [
   authAPI,
   deletedNotificationAPI,
   saleAPI,
+  fixedNotificationAPI,
 ];

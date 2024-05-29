@@ -9,7 +9,7 @@ import Dropdown from 'react-native-input-select';
 import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from 'App';
+import {RootStackParamList, StackNavigation} from 'App';
 import {useGetAllStoreQuery} from '@app/services/store';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
@@ -17,8 +17,13 @@ import {useGetAllUserQuery} from '@app/services/user';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {SliderBox} from 'react-native-image-slider-box';
 import {useGetAllProductsQuery} from '@app/services/product';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function CreateNotification() {
+interface Props
+  extends NativeStackScreenProps<RootStackParamList, 'CreateNotification'> {}
+
+const CreateNotification: React.FC<Props> = ({route}) => {
+  const {title, description} = route.params;
   const userId = useSelector((state: RootState) => state.user.id);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
@@ -44,8 +49,8 @@ export default function CreateNotification() {
     <Formik
       initialValues={{
         roleIds: [],
-        title: '',
-        description: '',
+        title: title || '',
+        description: description || '',
         storeIds: [],
         userIds: [],
         images: [],
@@ -282,7 +287,7 @@ export default function CreateNotification() {
       )}
     </Formik>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -321,3 +326,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
+
+export default CreateNotification;
