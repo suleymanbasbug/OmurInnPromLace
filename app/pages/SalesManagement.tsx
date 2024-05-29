@@ -4,20 +4,14 @@ import {ImageResources} from '../assets/Generated/ImageResources.g';
 import Seperator from '../components/Seperator';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS} from '@app/assets/values/colors';
-import {StackNavigation} from 'App';
 
 type AdminListType = {
   title: string;
-  route:
-    | 'StoreManagement'
-    | 'UserManagement'
-    | 'ProductManagement'
-    | 'NotificationManagement'
-    | 'SalesManagement';
+  route: 'UserSales' | 'StoreSales';
 };
 
-export default function AdminList() {
-  const navigation = useNavigation<StackNavigation>();
+export default function SalesManagement() {
+  const navigation = useNavigation();
   const renderItem = ({item}: {item: AdminListType}) => (
     <Pressable
       style={styles.listContainer}
@@ -34,11 +28,8 @@ export default function AdminList() {
     <View style={styles.container}>
       <FlatList
         data={[
-          {title: 'Mağaza Yönetimi', route: 'StoreManagement'},
-          {title: 'Kullanıcı Yönetimi', route: 'UserManagement'},
-          {title: 'Ürün Yönetimi', route: 'ProductManagement'},
-          {title: 'Bildirim Yönetimi', route: 'NotificationManagement'},
-          {title: 'Satış Yönetimi', route: 'SalesManagement'},
+          {title: 'Kullanıcı Satışları', route: 'UserSales'},
+          {title: 'Mağaza Satışları', route: 'StoreSales'},
         ]}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}

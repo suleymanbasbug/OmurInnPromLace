@@ -44,7 +44,7 @@ export default function Home() {
           styles.renderItemContainer,
           {
             backgroundColor:
-              selectedItem?.id === item.id ? COLORS.selected : COLORS.white,
+              selectedItem?.id === item.id ? COLORS.disabled : COLORS.white,
           },
         ]}
         onPress={() => {

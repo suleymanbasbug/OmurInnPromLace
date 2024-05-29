@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
   closeImage: {
     width: 15,
     height: 15,
-    tintColor: COLORS.primary,
+    tintColor: COLORS.white,
   },
 });

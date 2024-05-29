@@ -20,6 +20,10 @@ import CreateStore from '@app/pages/CreateStore';
 import EditStore from '@app/pages/EditStore';
 import SendNotification from '@app/pages/SendNotification';
 import NotificationDetail from '@app/pages/NotificationDetail';
+import SalesManagement from '@app/pages/SalesManagement';
+import UserSales from '@app/pages/UserSales';
+import StoreSales from '@app/pages/StoreSales';
+import SalesList from '@app/pages/SalesList';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AdminStack() {
@@ -244,6 +248,54 @@ export function AdminStack() {
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.white,
           title: 'Mağazayı Düzenle',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SalesManagement"
+        component={SalesManagement}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Satış Yönetimi',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="UserSales"
+        component={UserSales}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Kullanıcı Satışları',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="StoreSales"
+        component={StoreSales}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Mağaza Satışları',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SalesList"
+        component={SalesList}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Satış Listesi',
           headerStyle: {
             backgroundColor: COLORS.primary,
           },
