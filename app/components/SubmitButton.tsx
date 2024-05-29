@@ -17,7 +17,10 @@ export default function SubmitButton({
     <Pressable
       style={[
         styles.button,
-        {backgroundColor: disabled ? COLORS.disabled : COLORS.primary},
+        {
+          backgroundColor:
+            disabled || isLoading ? COLORS.disabled : COLORS.primary,
+        },
       ]}
       onPress={onPress}
       disabled={isLoading || disabled}>
