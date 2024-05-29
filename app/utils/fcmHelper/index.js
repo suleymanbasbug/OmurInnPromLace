@@ -97,11 +97,8 @@ export function registerListenerWithFCM() {
         break;
       case EventType.PRESS:
         console.log('User pressed notification', detail.notification);
-        // if (detail?.notification?.data?.clickAction) {
-        //   onNotificationClickActionHandling(
-        //     detail.notification.data.clickAction
-        //   );
-        // }
+        if (detail?.notification?.data?.id) {
+        }
         break;
     }
   });
@@ -132,7 +129,7 @@ export function registerListenerWithFCM() {
 
 //method was called to display notification
 async function onDisplayNotification(title, body, data) {
-  console.log('onDisplayNotification Adnan: ', JSON.stringify(data));
+  console.log('onDisplayNotification : ', JSON.stringify(data));
 
   // Request permissions (required for iOS)
   await notifee.requestPermission();
@@ -156,27 +153,3 @@ async function onDisplayNotification(title, body, data) {
     },
   });
 }
-
-// export async function joinRoom() {
-//   await messaging()
-//     .unsubscribeFromTopic('user')
-//     .then(res => {
-//       console.log('unsubscribeFromTopic', res);
-//     });
-//   await messaging()
-//     .unsubscribeFromTopic('store_owner')
-//     .then(res => {
-//       console.log('unsubscribeFromTopic', res);
-//     });
-//   await messaging()
-//     .unsubscribeFromTopic('admin')
-//     .then(res => {
-//       console.log('unsubscribeFromTopic', res);
-//     });
-
-//   await messaging()
-//     .subscribeToTopic('store_owner')
-//     .then(() => {
-//       console.log('Subscribed to topic!');
-//     });
-// }

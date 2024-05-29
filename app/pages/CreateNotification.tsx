@@ -4,7 +4,7 @@ import {useSendPushNotificationMutation} from '@app/services/notification';
 import {useGetAllUserRoleQuery} from '@app/services/user-role';
 import {Formik} from 'formik';
 import React from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
@@ -14,14 +14,20 @@ import {useGetAllStoreQuery} from '@app/services/store';
 import {useSelector} from 'react-redux';
 import {RootState} from '@app/store';
 import {useGetAllUserQuery} from '@app/services/user';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {SliderBox} from 'react-native-image-slider-box';
+import {useGetAllProductsQuery} from '@app/services/product';
+
 export default function CreateNotification() {
   const userId = useSelector((state: RootState) => state.user.id);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
   const {data: users} = useGetAllUserQuery();
+  const {data: products} = useGetAllProductsQuery();
   const [triggerSendPushNotification, {isLoading}] =
     useSendPushNotificationMutation();
   const navigation = useNavigation<StackNavigation>();
+
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Başlık zorunludur'),
     description: Yup.string().required('Açıklama zorunludur'),
@@ -42,19 +48,45 @@ export default function CreateNotification() {
         description: '',
         storeIds: [],
         userIds: [],
+        images: [],
+        productIds: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
-        triggerSendPushNotification({
-          title: values.title,
-          description: values.description,
-          sender_id: userId,
-          roleIds: values.roleIds,
-          storeIds: values.storeIds,
-          userIds: values.userIds,
-        })
+        const formData = new FormData();
+        if (values.images.length > 0) {
+          values.images.forEach((image: any) => {
+            formData.append('images[]', {
+              uri: image.uri,
+              type: image.type,
+              name: image.fileName,
+            });
+          });
+        }
+
+        values.productIds.forEach((productId: any) => {
+          formData.append('productIds[]', productId);
+        });
+
+        values.roleIds.forEach((roleId: any) => {
+          formData.append('roleIds[]', roleId);
+        });
+
+        values.storeIds.forEach((storeId: any) => {
+          formData.append('storeIds[]', storeId);
+        });
+
+        values.userIds.forEach((user: any) => {
+          formData.append('userIds[]', user);
+        });
+
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+        formData.append('sender_id', userId);
+        triggerSendPushNotification(formData)
           .unwrap()
-          .then(() => {
+          .then(res => {
+            console.log(res, ' => res');
             Toast.show({
               type: 'success',
               text1: 'Başarılı',
@@ -83,7 +115,7 @@ export default function CreateNotification() {
         touched,
         setFieldValue,
       }) => (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <Dropdown
             placeholder="Hangi Kullanıcı Rolüne Bildirim Gönderilecek?"
             options={
@@ -169,6 +201,36 @@ export default function CreateNotification() {
           {errors.userIds && touched.userIds && (
             <Text style={styles.errorText}>{errors.userIds}</Text>
           )}
+          <Dropdown
+            placeholder="Hangi Ürünler Bildirim İle Gönderilecek?"
+            options={
+              products?.map(product => ({
+                label: product.code,
+                value: product.id,
+              })) || []
+            }
+            selectedValue={values.productIds}
+            onValueChange={(value: any) => {
+              setFieldValue('productIds', value);
+            }}
+            primaryColor={COLORS.primary}
+            dropdownIcon={<></>}
+            dropdownStyle={styles.dropDownStyle}
+            placeholderStyle={{color: COLORS.black}}
+            listControls={{
+              emptyListMessage: 'Ürün Bulunamadı',
+              selectAllText: 'Hepsini Seç',
+              unselectAllText: 'Hepsini Kaldır',
+            }}
+            isMultiple
+            isSearchable
+            searchControls={{
+              textInputProps: {
+                placeholder: 'Ara',
+                placeholderTextColor: COLORS.black,
+              },
+            }}
+          />
           <TextInput
             style={styles.textInput}
             placeholder="Başlık"
@@ -192,12 +254,32 @@ export default function CreateNotification() {
           {errors.description && touched.description && (
             <Text style={styles.errorText}>{errors.description}</Text>
           )}
+          {values.images.length > 0 && (
+            <SliderBox
+              images={values.images.map((image: any) => image.uri)}
+              sliderBoxHeight={200}
+              dotColor={COLORS.primary}
+              paginationBoxVerticalPadding={20}
+            />
+          )}
+          <SubmitButton
+            onPress={async () => {
+              const result = await launchImageLibrary(
+                {mediaType: 'photo', includeBase64: false, selectionLimit: 4},
+                () => {},
+              );
+              if (result) {
+                setFieldValue('images', result.assets);
+              }
+            }}
+            title="Resim Seç"
+          />
           <SubmitButton
             onPress={handleSubmit}
             title="Gönder"
             isLoading={isLoading}
           />
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

@@ -19,6 +19,7 @@ import StoreManagement from '@app/pages/StoreManagement';
 import CreateStore from '@app/pages/CreateStore';
 import EditStore from '@app/pages/EditStore';
 import SendNotification from '@app/pages/SendNotification';
+import NotificationDetail from '@app/pages/NotificationDetail';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AdminStack() {
@@ -187,6 +188,18 @@ export function AdminStack() {
           headerLeft: HeaderBackButton,
           headerTintColor: COLORS.white,
           title: 'Bildirim Oluştur',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="NotificationDetail"
+        component={NotificationDetail}
+        options={{
+          headerLeft: HeaderBackButton,
+          headerTintColor: COLORS.white,
+          title: 'Bildirim Detayı',
           headerStyle: {
             backgroundColor: COLORS.primary,
           },

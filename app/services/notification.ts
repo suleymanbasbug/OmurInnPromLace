@@ -22,11 +22,15 @@ export const notificationAPI = createApi({
       query: user_role_id => `/notification/${user_role_id}`,
       providesTags: ['Notification'],
     }),
-    sendPushNotification: builder.mutation<void, SendPushNotificationApiArg>({
-      query: data => ({
+    sendPushNotification: builder.mutation<void, any>({
+      query: body => ({
         url: '/notification/send',
         method: 'POST',
-        body: data,
+        body,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
       }),
       invalidatesTags: ['Notification'],
     }),
@@ -55,6 +59,9 @@ export const notificationAPI = createApi({
       query: () => 'notification/user',
       providesTags: ['Notification'],
     }),
+    getNotificationById: builder.query<GetNotificationByIdResponse, number>({
+      query: id => `/notification/id/${id}`,
+    }),
   }),
 });
 
@@ -65,6 +72,8 @@ export type SendPushNotificationApiArg = {
   userIds: number[];
   roleIds: number[];
   storeIds: number[];
+  images?: [];
+  productIds?: [];
 };
 
 export type Notification = {
@@ -135,6 +144,11 @@ export type PivotStoreTopic = {
   };
 };
 
+export type GetNotificationByIdResponse = {
+  images: [];
+  products: [];
+} & Notification;
+
 export const {
   useSendPushNotificationMutation,
   useGetNotificationsByUserRoleQuery,
@@ -142,4 +156,5 @@ export const {
   useSubscribeToTopicsMutation,
   useGetNotificationsBySenderQuery,
   useGetNotificationsByUserQuery,
+  useGetNotificationByIdQuery,
 } = notificationAPI;

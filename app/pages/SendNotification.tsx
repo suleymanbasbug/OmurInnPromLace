@@ -21,6 +21,8 @@ import Empty from '@app/components/Empty';
 import Toast from 'react-native-toast-message';
 import _ from 'lodash';
 import {User} from '@app/services/user';
+import {StackNavigation} from 'App';
+import {useNavigation} from '@react-navigation/native';
 export type TransformedData = {
   stores: any[];
   users: any[];
@@ -39,6 +41,7 @@ export default function SendNotification() {
   const [triggerDelete] = useDeleteNotificationMutation();
   const [filteredData, setFilteredData] = React.useState<TransformedData[]>([]);
   const [data, setData] = React.useState<TransformedData[]>([]);
+  const navigation = useNavigation<StackNavigation>();
 
   useEffect(() => {
     if (notifications) {
@@ -99,7 +102,11 @@ export default function SendNotification() {
 
   const renderItem = ({item}: {item: TransformedData}) => {
     return (
-      <View style={styles.renderItemContainer}>
+      <Pressable
+        style={styles.renderItemContainer}
+        onPress={() => {
+          navigation.navigate('NotificationDetail', {id: item.id});
+        }}>
         <Text style={styles.title}>
           Başlık : <Text style={styles.description}>{item.title}</Text>
         </Text>
@@ -136,7 +143,7 @@ export default function SendNotification() {
             </Text>
           </Text>
         )}
-      </View>
+      </Pressable>
     );
   };
 
