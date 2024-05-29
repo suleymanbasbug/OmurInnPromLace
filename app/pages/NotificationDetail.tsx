@@ -25,10 +25,6 @@ const NotificationDetail: React.FC<Props> = ({route}) => {
   const [index, setIndex] = React.useState(0);
   const {data: sizes} = useGetAllSizeQuery();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const renderItem = ({item}: {item: any}) => {
     return (
       <View style={styles.renderItemContainer}>

@@ -78,8 +78,29 @@ const NavigationHandler = () => {
 };
 
 export default () => {
+  const config = {
+    screens: {
+      HomeTab: {
+        screens: {
+          NotificationDetail: {
+            path: 'notification-detail/:id',
+            parse: {
+              id: (id: string) => Number(id),
+            },
+            stringify: {
+              id: (id: number) => String(id),
+            },
+          },
+        },
+      },
+    },
+  };
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={{
+        prefixes: ['omurinn://app'],
+        config,
+      }}>
       <NavigationHandler />
     </NavigationContainer>
   );

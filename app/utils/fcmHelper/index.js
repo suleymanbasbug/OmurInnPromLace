@@ -1,5 +1,6 @@
 import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
+import {Linking} from 'react-native';
 import {PERMISSIONS, request} from 'react-native-permissions';
 //method was called to get FCM tiken for notification
 export const getFcmToken = async () => {
@@ -98,6 +99,9 @@ export function registerListenerWithFCM() {
       case EventType.PRESS:
         console.log('User pressed notification', detail.notification);
         if (detail?.notification?.data?.id) {
+          Linking.openURL(
+            `omurinn://app/notification-detail/${detail.notification.data.id}`,
+          );
         }
         break;
     }

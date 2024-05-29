@@ -85,8 +85,7 @@ export default function CreateNotification() {
         formData.append('sender_id', userId);
         triggerSendPushNotification(formData)
           .unwrap()
-          .then(res => {
-            console.log(res, ' => res');
+          .then(() => {
             Toast.show({
               type: 'success',
               text1: 'Başarılı',

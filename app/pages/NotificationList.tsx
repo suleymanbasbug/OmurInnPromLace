@@ -21,13 +21,15 @@ import {
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import _ from 'lodash';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from 'App';
 
 export default function NotificationList() {
   const {data} = useGetNotificationsByUserQuery();
   const {data: deletedNotification} = useGetDeletedNotificationsQuery();
   const [triggerDelete] = useSendDeletedNotificationMutation();
   const [notifications, setNotifications] = React.useState<Notification[]>([]);
-
+  const navigation = useNavigation<StackNavigation>();
   useEffect(() => {
     if (deletedNotification && data) {
       if (deletedNotification?.deleted_notification_ids) {
@@ -57,11 +59,15 @@ export default function NotificationList() {
 
   const renderItem = ({item}: {item: Notification}) => {
     return (
-      <View style={styles.renderItemContainer}>
+      <Pressable
+        style={styles.renderItemContainer}
+        onPress={() => {
+          navigation.navigate('NotificationDetail', {id: item.id});
+        }}>
         <Text style={styles.title}>
           <Text style={styles.description}>{item.description}</Text>
         </Text>
-      </View>
+      </Pressable>
     );
   };
 

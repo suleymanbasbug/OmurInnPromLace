@@ -18,7 +18,6 @@ interface Props
 
 const EditUser: React.FC<Props> = ({route}) => {
   const {user} = route.params;
-  console.log(user);
   const {data: userRole} = useGetAllUserRoleQuery();
   const {data: stores} = useGetAllStoreQuery();
   const navigation = useNavigation<StackNavigation>();
