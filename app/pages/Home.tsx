@@ -8,8 +8,19 @@ import {useGetAllSizeQuery} from '@app/services/size';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from 'App';
 import React, {useEffect} from 'react';
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {IMAGE_URL} from '@env';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import LinearGradient from 'react-native-linear-gradient';
+import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 
 export default function Home() {
   const {data} = useGetAllProductsQuery();
@@ -19,6 +30,7 @@ export default function Home() {
   const [selectedItem, setSelectedItem] = React.useState<ProductDto | null>(
     null,
   );
+  const [isImageModalVisible, setImageModalVisible] = React.useState(false);
 
   const handleSearch = (value: string) => {
     if (value) {
@@ -50,12 +62,51 @@ export default function Home() {
         onPress={() => {
           setSelectedItem(item);
         }}>
-        <Image
-          source={{
-            uri: `${IMAGE_URL}${item.image}`,
-          }}
-          style={styles.image}
-        />
+        <Pressable onPress={() => setImageModalVisible(true)}>
+          <Image
+            source={{
+              uri: `${IMAGE_URL}${item.image}`,
+            }}
+            style={styles.image}
+          />
+        </Pressable>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={isImageModalVisible}
+          onRequestClose={() => setImageModalVisible(false)}>
+          <View style={{flex: 1}}>
+            <LinearGradient colors={[COLORS.primary, COLORS.primary]}>
+              <View
+                style={
+                  Platform.OS === 'android'
+                    ? {
+                        height: 50,
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                      }
+                    : {
+                        height: 100,
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        paddingTop: 50,
+                        paddingLeft: 10,
+                      }
+                }>
+                <Pressable onPress={() => setImageModalVisible(false)}>
+                  <Image
+                    style={{width: 25, height: 25}}
+                    source={ImageResources.close}
+                  />
+                </Pressable>
+              </View>
+            </LinearGradient>
+            <ImageViewer
+              imageUrls={[{url: `${IMAGE_URL}${item.image}`}] as any}
+            />
+          </View>
+        </Modal>
         <View style={styles.infoWrapper}>
           <Text style={styles.description}>
             <Text style={styles.title}>Ürün Kodu : </Text> {item.code}

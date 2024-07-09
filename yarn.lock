@@ -3206,6 +3206,7 @@ __metadata:
     react-native-image-picker: ^7.1.2
     react-native-image-resource-generator: ^1.0.2
     react-native-image-slider-box: "https://github.com/megamaxs1234/react-native-image-slider-box"
+    react-native-image-zoom-viewer: ^3.0.1
     react-native-input-select: ^1.3.5
     react-native-keychain: ^8.2.0
     react-native-linear-gradient: ^2.8.3
@@ -8622,6 +8623,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-image-pan-zoom@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "react-native-image-pan-zoom@npm:2.1.12"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 826ed254d27b079cb985b63c65d0f504f11987b68ae71bac0e1c0e99dc24d5816fc9b8d053eb04737c60c018ad520a1e9c4b99af26952646ccabe9fc2b3bd64f
+  languageName: node
+  linkType: hard
+
 "react-native-image-picker@npm:^7.1.2":
   version: 7.1.2
   resolution: "react-native-image-picker@npm:7.1.2"
@@ -8651,6 +8662,18 @@ __metadata:
   dependencies:
     react-native-snap-carousel: "apurba-bware/react-native-snap-carousel#5a7f809e921262e4e2f646e8cfc4da85f7bd663d"
   checksum: 97e92c392f250046a820671924555baed455d1e1ffe4dad19d075c0728c5f6ca377c01715fffa26cb917c4aa1f65826e25b409e1a2e62d8eb3933b1b4d9d8cc4
+  languageName: node
+  linkType: hard
+
+"react-native-image-zoom-viewer@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "react-native-image-zoom-viewer@npm:3.0.1"
+  dependencies:
+    react-native-image-pan-zoom: ^2.1.12
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: bd32e382100fece8f815bacabe276f8f05a7c1edc1ff8485149fd863780de7d11a1a8241b837adad957e53ce1e19ef249410fdb312bc43fb7071b57fb879b78d
   languageName: node
   linkType: hard
 

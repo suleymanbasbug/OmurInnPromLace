@@ -16,6 +16,7 @@
 		17A69CE02D9046B39DAAE6C4 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01CD5776C78F4CD9B387381D /* Inter-Light.ttf */; };
 		1E20EBD51E32650F1508C4FF /* Pods_OmurInnPromLace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6C458531E7884F120B3F15C /* Pods_OmurInnPromLace.framework */; };
 		4F5ED6BE2BE7C53500197B46 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F5ED6BD2BE7C53500197B46 /* GoogleService-Info.plist */; };
+		4FD169C52C2D95360064832D /* notification.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4FD169C42C2D95360064832D /* notification.wav */; };
 		6744C12F36C24784BD7CDD39 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DEAE10366424E5E81D0EEB2 /* Inter-SemiBold.ttf */; };
 		6A80A3A6529340CBB8063FFD /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 186CFC189B92471AB3BE362A /* Inter-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -50,6 +51,7 @@
 		3B4392A12AC88292D35C810B /* Pods-OmurInnPromLace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace.debug.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace/Pods-OmurInnPromLace.debug.xcconfig"; sourceTree = "<group>"; };
 		4F5ED6BD2BE7C53500197B46 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4F5ED6BF2BE7C6CD00197B46 /* OmurInnPromLace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = OmurInnPromLace.entitlements; path = OmurInnPromLace/OmurInnPromLace.entitlements; sourceTree = "<group>"; };
+		4FD169C42C2D95360064832D /* notification.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notification.wav; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-OmurInnPromLace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace.release.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace/Pods-OmurInnPromLace.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig"; path = "Target Support Files/Pods-OmurInnPromLace-OmurInnPromLaceTests/Pods-OmurInnPromLace-OmurInnPromLaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7DEAE10366424E5E81D0EEB2 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../app/assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		13B07FAE1A68108700A75B9A /* OmurInnPromLace */ = {
 			isa = PBXGroup;
 			children = (
+				4FD169C42C2D95360064832D /* notification.wav */,
 				4F5ED6BF2BE7C6CD00197B46 /* OmurInnPromLace.entitlements */,
 				4F5ED6BD2BE7C53500197B46 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -284,6 +287,7 @@
 				FC2FC9AB3E1643CE8A255E47 /* Inter-Medium.ttf in Resources */,
 				095CADBCAE8148A39089F4D3 /* Inter-Regular.ttf in Resources */,
 				6744C12F36C24784BD7CDD39 /* Inter-SemiBold.ttf in Resources */,
+				4FD169C52C2D95360064832D /* notification.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,10 +657,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -739,10 +740,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
