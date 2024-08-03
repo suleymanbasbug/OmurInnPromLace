@@ -528,6 +528,7 @@
 				DEVELOPMENT_TEAM = AWA8LNQCUU;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OmurInnPromLace/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "OmurInn Promlace";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -556,6 +557,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AWA8LNQCUU;
 				INFOPLIST_FILE = OmurInnPromLace/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "OmurInn Promlace";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
