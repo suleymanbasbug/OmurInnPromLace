@@ -1,3 +1,4 @@
+import {ImageResources} from '@app/assets/Generated/ImageResources.g';
 import {COLORS} from '@app/assets/values/colors';
 import Seperator from '@app/components/Seperator';
 import {useGetNotificationByIdQuery} from '@app/services/notification';
@@ -9,12 +10,17 @@ import React, {useEffect} from 'react';
 import {
   FlatList,
   Image,
+  Modal,
+  Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, 'NotificationDetail'> {}
@@ -24,7 +30,15 @@ const NotificationDetail: React.FC<Props> = ({route}) => {
   const {data} = useGetNotificationByIdQuery(id);
   const [index, setIndex] = React.useState(0);
   const {data: sizes} = useGetAllSizeQuery();
-
+  const [isImageModalVisible, setImageModalVisible] = React.useState(false);
+  const [images, setImages] = React.useState<any[]>([]);
+  useEffect(() => {
+    if (data?.images && data?.images?.length > 0) {
+      setImages(
+        data.images.map(image => ({url: `${IMAGE_URL}${image.image}`})),
+      );
+    }
+  }, [data]);
   const renderItem = ({item}: {item: any}) => {
     return (
       <View style={styles.renderItemContainer}>
@@ -69,36 +83,78 @@ const NotificationDetail: React.FC<Props> = ({route}) => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      style={{backgroundColor: 'white'}}>
-      <Text style={styles.title}>{data?.title}</Text>
-      <Text style={styles.description}>{data?.description}</Text>
-      {data && data?.images.length > 0 && data?.images.length !== index + 1 && (
-        <SliderBox
-          images={data.images.map((image: any) => `${IMAGE_URL}${image.image}`)}
-          sliderBoxHeight={200}
-          dotColor={COLORS.primary}
-          autoplay
-          autoplayInterval={1500}
-          currentImageEmitter={(imageIndex: any) => {
-            setTimeout(() => {
-              setIndex(imageIndex);
-            }, 1500);
-          }}
-        />
-      )}
-      {data && data?.products.length > 0 && (
-        <FlatList
-          style={{width: '100%'}}
-          data={data?.products}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-          ItemSeparatorComponent={Seperator}
-          nestedScrollEnabled
-        />
-      )}
-    </ScrollView>
+    <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={isImageModalVisible}
+        onRequestClose={() => setImageModalVisible(false)}>
+        <View style={{flex: 1}}>
+          <LinearGradient colors={[COLORS.primary, COLORS.primary]}>
+            <View
+              style={
+                Platform.OS === 'android'
+                  ? {
+                      height: 50,
+                      justifyContent: 'center',
+                      alignItems: 'flex-start',
+                    }
+                  : {
+                      height: 100,
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      paddingTop: 50,
+                      paddingLeft: 10,
+                    }
+              }>
+              <Pressable onPress={() => setImageModalVisible(false)}>
+                <Image
+                  style={{width: 25, height: 25}}
+                  source={ImageResources.close}
+                />
+              </Pressable>
+            </View>
+          </LinearGradient>
+          <ImageViewer imageUrls={images} />
+        </View>
+      </Modal>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        style={{backgroundColor: 'white'}}>
+        <Text style={styles.title}>{data?.title}</Text>
+        <Text style={styles.description}>{data?.description}</Text>
+        {data && data?.images.length > 0 && (
+          <SliderBox
+            images={data.images.map(
+              (image: any) => `${IMAGE_URL}${image.image}`,
+            )}
+            sliderBoxHeight={200}
+            dotColor={COLORS.primary}
+            autoplay
+            autoplayInterval={1500}
+            currentImageEmitter={(imageIndex: any) => {
+              setTimeout(() => {
+                setIndex(imageIndex);
+              }, 1500);
+            }}
+            onCurrentImagePressed={(index: any) => {
+              setImageModalVisible(true);
+            }}
+          />
+        )}
+        {data && data?.products.length > 0 && (
+          <FlatList
+            style={{width: '100%'}}
+            data={data?.products}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+            ItemSeparatorComponent={Seperator}
+            nestedScrollEnabled
+          />
+        )}
+      </ScrollView>
+    </>
   );
 };
 

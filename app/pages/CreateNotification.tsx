@@ -59,7 +59,7 @@ const CreateNotification: React.FC<Props> = ({route}) => {
       validationSchema={validationSchema}
       onSubmit={values => {
         const formData = new FormData();
-        if (values.images.length > 0) {
+        if (values?.images?.length > 0) {
           values.images.forEach((image: any) => {
             formData.append('images[]', {
               uri: image.uri,
@@ -258,7 +258,7 @@ const CreateNotification: React.FC<Props> = ({route}) => {
           {errors.description && touched.description && (
             <Text style={styles.errorText}>{errors.description}</Text>
           )}
-          {values.images.length > 0 && (
+          {values?.images?.length > 0 && (
             <SliderBox
               images={values.images.map((image: any) => image.uri)}
               sliderBoxHeight={200}

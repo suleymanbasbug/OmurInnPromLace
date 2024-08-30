@@ -90,6 +90,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release{
+            storeFile file('omurinn.keystore')
+            storePassword '94390243'
+            keyAlias 'omurinn'
+            keyPassword '94390243'
+        }
     }
     buildTypes {
         debug {
